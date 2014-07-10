@@ -17,15 +17,15 @@
 
 	<aop:config>
 		<aop:aspect id="log" ref="logAspect">
-
-			<aop:pointcut expression="execution(* tutorialimpl.ServiceImpl.*(..))"
-				id="selectAll" />
+			<!--  <aop:pointcut id="calling" 
+			expression="call(* tutorialimpl.ServiceImpl.*(..))" /> -->
+			<aop:pointcut id="selectAll"
+				expression="execution(* tutorialimpl.ServiceImpl.*(..))" />
 			<aop:before pointcut-ref="selectAll" method="dobefore" />
 			<aop:after pointcut-ref="selectAll" method="doafter" />
 			<aop:around pointcut-ref="selectAll" method="doAround" />
-			<aop:after-returning pointcut-ref="selectAll" 
-                              returning="retVal"
-                              method="afterReturning"/>
+			<aop:after-returning pointcut-ref="selectAll"
+				returning="retVal" method="afterReturning" />
 		</aop:aspect>
 	</aop:config>
 </beans>
