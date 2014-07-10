@@ -1,0 +1,922 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Appendix&nbsp;F.&nbsp;Gemini Blueprint Schema</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"><link rel="start" href="index.html" title="Eclipse Gemini Blueprint Reference Guide"><link rel="up" href="appendixes.html" title="Part&nbsp;IV.&nbsp;Appendixes"><link rel="prev" href="appendix-osgi-repo.html" title="Appendix&nbsp;E.&nbsp;Gemini Blueprint OSGi Repository"><link rel="next" href="appendix-ack.html" title="Appendix&nbsp;G.&nbsp;Acknowledgments"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="appendix-schema"></a>Appendix&nbsp;F.&nbsp;Gemini Blueprint Schema</h2></div></div></div><p>Gemini Blueprint Core Schema</p><pre class="programlisting">&lt;<span class="hl-tag">?xml version="1.0" encoding="UTF-8" standalone="no"?</span>&gt;
+
+&lt;<span class="hl-tag">xsd:schema</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://www.eclipse.org/gemini/blueprint/schema/blueprint"</span>
+        <span class="hl-attribute">xmlns:xsd</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema"</span>
+        <span class="hl-attribute">xmlns:beans</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>
+        <span class="hl-attribute">xmlns:tool</span>=<span class="hl-value">"http://www.springframework.org/schema/tool"</span>
+        <span class="hl-attribute">targetNamespace</span>=<span class="hl-value">"http://www.eclipse.org/gemini/blueprint/schema/blueprint"</span>
+        <span class="hl-attribute">elementFormDefault</span>=<span class="hl-value">"qualified"</span>
+        <span class="hl-attribute">attributeFormDefault</span>=<span class="hl-value">"unqualified"</span>
+        <span class="hl-attribute">version</span>=<span class="hl-value">"1.0.0"</span>&gt;
+
+    &lt;<span class="hl-tag">xsd:import</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"http://www.w3.org/XML/1998/namespace"</span>/&gt;
+    &lt;<span class="hl-tag">xsd:import</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>/&gt;
+    &lt;<span class="hl-tag">xsd:import</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"http://www.springframework.org/schema/tool"</span>/&gt;
+
+    &lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        &lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Namespace</span> <span class="hl-attribute">support</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">core</span> <span class="hl-attribute">services</span> <span class="hl-attribute">provided</span> <span class="hl-attribute">by</span> <span class="hl-attribute">Eclipse</span> <span class="hl-attribute">Gemini</span> <span class="hl-attribute">Blueprint.</span>
+        <span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+    
+    <span class="hl-attribute">&lt;xsd:attributeGroup</span> <span class="hl-attribute">name</span>=<span class="hl-value">"defaults"</span>&gt;
+    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[Defaults</span> <span class="hl-attribute">for</span> <span class="hl-attribute">Gemini</span> <span class="hl-attribute">Blueprint</span> <span class="hl-attribute">declarations.]]&gt;</span>
+    		<span class="hl-attribute">&lt;/xsd:documentation&gt;</span>
+    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+    	<span class="hl-attribute">&lt;!--</span> <span class="hl-attribute">attributes</span> <span class="hl-attribute">--&gt;</span>
+    	<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"default-timeout"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:nonNegativeInteger"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"30000"</span>&gt;
+    		&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    			&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Default</span> <span class="hl-attribute">timeout</span> <span class="hl-attribute">(in</span> <span class="hl-attribute">milliseconds)</span> <span class="hl-attribute">for</span> <span class="hl-attribute">all</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">(service</span> <span class="hl-attribute">importers)</span> <span class="hl-attribute">elements</span> <span class="hl-attribute">that</span> <span class="hl-attribute">do</span> <span class="hl-attribute">not</span> <span class="hl-attribute">explicitly</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">one.</span>
+    <span class="hl-attribute">Default</span> <span class="hl-attribute">value</span> <span class="hl-attribute">is</span> <span class="hl-attribute">300000</span> <span class="hl-attribute">ms</span> <span class="hl-attribute">(5</span> <span class="hl-attribute">minutes).</span>
+    			<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+    		<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+    	<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+    	<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"default-availablility"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TavailabilityOptions"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"mandatory"</span>&gt;
+    		&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    			&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Default</span> <span class="hl-attribute">availability</span> <span class="hl-attribute">for</span> <span class="hl-attribute">all</span> <span class="hl-attribute">OSGi</span> <span class="hl-attribute">references</span> <span class="hl-attribute">(singular</span> <span class="hl-attribute">or</span> <span class="hl-attribute">collections)</span> <span class="hl-attribute">elements</span> <span class="hl-attribute">that</span> <span class="hl-attribute">do</span> <span class="hl-attribute">not</span> <span class="hl-attribute">explicitly</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">one.</span>
+    <span class="hl-attribute">Default</span> <span class="hl-attribute">value</span> <span class="hl-attribute">is</span> <span class="hl-attribute">'mandatory'</span> <span class="hl-attribute">which</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">must</span> <span class="hl-attribute">exist</span> <span class="hl-attribute">while</span> <span class="hl-attribute">'optional'</span> <span class="hl-attribute">indicates</span> <span class="hl-attribute">that</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> 
+    <span class="hl-attribute">acceptable</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">no</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service.</span>
+        		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+    	<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"default-cardinality"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TdefaultCardinalityOptions"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"1..X"</span>&gt;
+    		&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    			&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">As</span> <span class="hl-attribute">of</span> <span class="hl-attribute">Eclipse</span> <span class="hl-attribute">Gemini</span> <span class="hl-attribute">Blueprint,</span> <span class="hl-attribute">'default-cardinality'</span> <span class="hl-attribute">has</span> <span class="hl-attribute">been</span> <span class="hl-attribute">replaced</span> <span class="hl-attribute">by</span> <span class="hl-attribute">'default-availability'</span> <span class="hl-attribute">attribute.</span>
+    
+    <span class="hl-attribute">Default</span> <span class="hl-attribute">cardinality</span> <span class="hl-attribute">(of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">relationship</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service(s))</span> <span class="hl-attribute">for</span> <span class="hl-attribute">all</span> <span class="hl-attribute">OSGi</span> <span class="hl-attribute">references</span> <span class="hl-attribute">(singular</span> <span class="hl-attribute">or</span> <span class="hl-attribute">collections)</span> 
+    <span class="hl-attribute">elements</span> <span class="hl-attribute">that</span> <span class="hl-attribute">do</span> <span class="hl-attribute">not</span> <span class="hl-attribute">explicitly</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">one.</span>
+    <span class="hl-attribute">Default</span> <span class="hl-attribute">value</span> <span class="hl-attribute">is</span> <span class="hl-attribute">'1..X'</span> <span class="hl-attribute">(resolved</span> <span class="hl-attribute">to</span> <span class="hl-attribute">'1..1'</span> <span class="hl-attribute">for</span> <span class="hl-attribute">osgi:reference</span> <span class="hl-attribute">and</span> <span class="hl-attribute">'1..N'</span> <span class="hl-attribute">for</span> <span class="hl-attribute">osgi:list/set)</span> <span class="hl-attribute">which</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> 
+    <span class="hl-attribute">service</span> <span class="hl-attribute">must</span> <span class="hl-attribute">exist</span> <span class="hl-attribute">(this</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">mandatory</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference).</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'0..X'</span> <span class="hl-attribute">(resolved</span> <span class="hl-attribute">to</span> <span class="hl-attribute">'0..1'</span> <span class="hl-attribute">for</span> <span class="hl-attribute">osgi:reference</span> 
+    <span class="hl-attribute">and</span> <span class="hl-attribute">'0..N'</span> <span class="hl-attribute">for</span> <span class="hl-attribute">osgi:list/set)</span> <span class="hl-attribute">indicates</span> <span class="hl-attribute">that</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> <span class="hl-attribute">acceptable</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">no</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">(an</span> <span class="hl-attribute">optional</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference).</span>
+        		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:attributeGroup&gt;</span>
+
+    <span class="hl-attribute">&lt;xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TavailabilityOptions"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"mandatory"</span>&gt;
+            	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+            		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Mandatory</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">-</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">must</span> <span class="hl-attribute">exist.</span>
+            		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+            	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+            <span class="hl-attribute">&lt;/xsd:enumeration&gt;</span>
+            <span class="hl-attribute">&lt;xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"optional"</span>&gt;
+            	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+            		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Optional</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">-</span> <span class="hl-attribute">A</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">missing.</span>
+            		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+            	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+            <span class="hl-attribute">&lt;/xsd:enumeration&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:restriction&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:simpleType&gt;</span>
+        
+    <span class="hl-attribute">&lt;xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TdefaultCardinalityOptions"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"1..X"</span>&gt;
+            	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+            		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">A</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">must</span> <span class="hl-attribute">exist</span> <span class="hl-attribute">(this</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">mandatory</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference).</span>
+            		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+            	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+            <span class="hl-attribute">&lt;/xsd:enumeration&gt;</span>
+            <span class="hl-attribute">&lt;xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"0..X"</span>&gt;
+            	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+            		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">A</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">missing</span> <span class="hl-attribute">(this</span> <span class="hl-attribute">is</span> <span class="hl-attribute">an</span> <span class="hl-attribute">optional</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference).</span>
+            		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+            	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+            <span class="hl-attribute">&lt;/xsd:enumeration&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:restriction&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:simpleType&gt;</span>
+	
+    <span class="hl-attribute">&lt;!--</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">--&gt;</span>
+    <span class="hl-attribute">&lt;xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"reference"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TsingleReference"</span>&gt;
+        &lt;<span class="hl-tag">xsd:annotation</span>&gt;
+            &lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">service</span> <span class="hl-attribute">obtained</span> <span class="hl-attribute">via</span> <span class="hl-attribute">the</span> <span class="hl-attribute">OSGi</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span>
+            <span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:element&gt;</span>
+
+    <span class="hl-attribute">&lt;xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"Treference"</span>&gt;
+        &lt;<span class="hl-tag">xsd:complexContent</span>&gt;
+            &lt;<span class="hl-tag">xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"beans:identifiedType"</span>&gt;
+                &lt;<span class="hl-tag">xsd:sequence</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"interfaces"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"beans:listOrSetType"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+                    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">set</span> <span class="hl-attribute">of</span> <span class="hl-attribute">service</span> <span class="hl-attribute">interfaces</span> <span class="hl-attribute">that</span> <span class="hl-attribute">the</span> <span class="hl-attribute">services</span> <span class="hl-attribute">obtained</span> <span class="hl-attribute">via</span> <span class="hl-attribute">the</span> <span class="hl-attribute">registry</span> <span class="hl-attribute">are</span> <span class="hl-attribute">required</span> <span class="hl-attribute">to</span> <span class="hl-attribute">support.</span>
+    <span class="hl-attribute">By</span> <span class="hl-attribute">convention,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">interface</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">interface</span> <span class="hl-attribute">type,</span> <span class="hl-attribute">but</span> <span class="hl-attribute">may</span> <span class="hl-attribute">also</span> <span class="hl-attribute">be</span> <span class="hl-attribute">a</span> <span class="hl-attribute">(non-final)</span>
+    <span class="hl-attribute">class</span> <span class="hl-attribute">type.</span>
+                    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                    <span class="hl-attribute">&lt;/xsd:element&gt;</span>
+                    <span class="hl-attribute">&lt;xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"reference-listener"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"Tlistener"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"unbounded"</span>&gt;
+                      &lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">listener</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">receive</span> <span class="hl-attribute">notification</span> <span class="hl-attribute">when</span> <span class="hl-attribute">a</span> <span class="hl-attribute">service</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">this</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">is</span> 
+    <span class="hl-attribute">bound</span> <span class="hl-attribute">or</span> <span class="hl-attribute">unbound.</span>
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                    <span class="hl-attribute">&lt;/xsd:element&gt;</span>
+                    <span class="hl-attribute">&lt;xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"listener"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"Tlistener"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"unbounded"</span>&gt;
+                      &lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">listener</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">receive</span> <span class="hl-attribute">notification</span> <span class="hl-attribute">when</span> <span class="hl-attribute">a</span> <span class="hl-attribute">service</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">this</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">is</span> 
+    <span class="hl-attribute">bound</span> <span class="hl-attribute">or</span> <span class="hl-attribute">unbound.</span> <span class="hl-attribute">Deprecated</span> <span class="hl-attribute">since</span> <span class="hl-attribute">Gemini</span> <span class="hl-attribute">Blueprint,</span> <span class="hl-attribute">in</span> <span class="hl-attribute">favour</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'reference-listener'.</span> 
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                    <span class="hl-attribute">&lt;/xsd:element&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:sequence&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"interface"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:token"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">The</span> <span class="hl-attribute">service</span> <span class="hl-attribute">interface</span> <span class="hl-attribute">that</span> <span class="hl-attribute">the</span> <span class="hl-attribute">services</span> <span class="hl-attribute">obtained</span> <span class="hl-attribute">via</span> <span class="hl-attribute">the</span> <span class="hl-attribute">registry</span> <span class="hl-attribute">are</span> <span class="hl-attribute">required</span> <span class="hl-attribute">to</span> <span class="hl-attribute">support.</span>
+    <span class="hl-attribute">By</span> <span class="hl-attribute">convention</span> <span class="hl-attribute">this</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">interface</span> <span class="hl-attribute">type,</span> <span class="hl-attribute">but</span> <span class="hl-attribute">may</span> <span class="hl-attribute">also</span> <span class="hl-attribute">be</span> <span class="hl-attribute">a</span> <span class="hl-attribute">(non-final)</span> <span class="hl-attribute">class</span> <span class="hl-attribute">type.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                		<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+                			<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+                				<span class="hl-attribute">&lt;tool:expected-type</span> <span class="hl-attribute">type</span>=<span class="hl-value">"java.lang.Class"</span> /&gt;
+                			&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+                		&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;
+                	&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+                &lt;<span class="hl-tag">/xsd:attribute</span>&gt;
+                &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"filter"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span>&gt;
+                      &lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">an</span> <span class="hl-attribute">OSGi</span> <span class="hl-attribute">filter</span> <span class="hl-attribute">expression</span> <span class="hl-attribute">that</span> <span class="hl-attribute">is</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">constrain</span> <span class="hl-attribute">the</span> <span class="hl-attribute">set</span> <span class="hl-attribute">of</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">services</span>
+    <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span> 
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"depends-on"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+					&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+						&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">refer</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">another</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">that</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">depends</span> <span class="hl-attribute">on.</span> <span class="hl-attribute">Ensures</span> <span class="hl-attribute">that</span> <span class="hl-attribute">the</span>
+	<span class="hl-attribute">service</span> <span class="hl-attribute">registry</span> <span class="hl-attribute">look-up</span> <span class="hl-attribute">does</span> <span class="hl-attribute">not</span> <span class="hl-attribute">happen</span> <span class="hl-attribute">until</span> <span class="hl-attribute">after</span> <span class="hl-attribute">the</span> <span class="hl-attribute">dependent</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">has</span> <span class="hl-attribute">been</span> <span class="hl-attribute">created</span> 
+	<span class="hl-attribute">(most</span> <span class="hl-attribute">commonly</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">refer</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">bean).</span>
+						<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+					<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>                
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"bean-name"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Convenient</span> <span class="hl-attribute">shortcut</span> <span class="hl-attribute">for</span> <span class="hl-attribute">specifying</span> <span class="hl-attribute">a</span> <span class="hl-attribute">filter</span> <span class="hl-attribute">expression</span> <span class="hl-attribute">that</span> <span class="hl-attribute">matches</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean-name</span> <span class="hl-attribute">property</span>
+    <span class="hl-attribute">that</span> <span class="hl-attribute">is</span> <span class="hl-attribute">automatically</span> <span class="hl-attribute">advertised</span> <span class="hl-attribute">for</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">published</span> <span class="hl-attribute">using</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">element.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"context-class-loader"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TreferenceClassLoaderOptions"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"client"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">how</span> <span class="hl-attribute">the</span> <span class="hl-attribute">context</span> <span class="hl-attribute">class</span> <span class="hl-attribute">loader</span> <span class="hl-attribute">is</span> <span class="hl-attribute">managed</span> <span class="hl-attribute">when</span> <span class="hl-attribute">invoking</span> <span class="hl-attribute">operations</span> <span class="hl-attribute">on</span> <span class="hl-attribute">a</span> <span class="hl-attribute">service</span>
+    <span class="hl-attribute">backing</span> <span class="hl-attribute">this</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference.</span> <span class="hl-attribute">The</span> <span class="hl-attribute">default</span> <span class="hl-attribute">value</span> <span class="hl-attribute">is</span> <span class="hl-attribute">'client'</span> <span class="hl-attribute">which</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">the</span> <span class="hl-attribute">context</span>
+    <span class="hl-attribute">class</span> <span class="hl-attribute">loader</span> <span class="hl-attribute">has</span> <span class="hl-attribute">visibility</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">resources</span> <span class="hl-attribute">on</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bundle's</span> <span class="hl-attribute">classpath.</span> <span class="hl-attribute">Alternate</span>
+    <span class="hl-attribute">options</span> <span class="hl-attribute">are</span> <span class="hl-attribute">'service-provider'</span> <span class="hl-attribute">which</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">the</span> <span class="hl-attribute">context</span> <span class="hl-attribute">class</span> <span class="hl-attribute">loader</span> <span class="hl-attribute">has</span> <span class="hl-attribute">visibility</span> <span class="hl-attribute">of</span> 
+    <span class="hl-attribute">resources</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">classpath</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">that</span> <span class="hl-attribute">exported</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">'unmanaged'</span>
+    <span class="hl-attribute">which</span> <span class="hl-attribute">does</span> <span class="hl-attribute">not</span> <span class="hl-attribute">do</span> <span class="hl-attribute">any</span> <span class="hl-attribute">management</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">context</span> <span class="hl-attribute">class</span> <span class="hl-attribute">loader.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+            <span class="hl-attribute">&lt;/xsd:extension&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:complexContent&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+    
+    <span class="hl-attribute">&lt;xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TreferenceClassLoaderOptions"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"client"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"service-provider"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"unmanaged"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:restriction</span>&gt;
+    &lt;<span class="hl-tag">/xsd:simpleType</span>&gt;
+
+    &lt;<span class="hl-tag">xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"Tlistener"</span>&gt;
+    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">listener</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">notified</span> <span class="hl-attribute">when</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">the</span> <span class="hl-attribute">enclosing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">element</span> <span class="hl-attribute">is</span> <span class="hl-attribute">bound</span> <span class="hl-attribute">or</span> 
+    <span class="hl-attribute">unbound.</span> <span class="hl-attribute">Use</span> <span class="hl-attribute">either</span> <span class="hl-attribute">the</span> <span class="hl-attribute">'ref'</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">or</span> <span class="hl-attribute">a</span> <span class="hl-attribute">nested</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">declaration</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">listener</span> <span class="hl-attribute">bean.</span>
+    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;xsd:sequence</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+            &lt;<span class="hl-comment">!-- nested bean declaration --</span>&gt;
+            &lt;<span class="hl-tag">xsd:any</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"##other"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">processContents</span>=<span class="hl-value">"skip"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:sequence</span>&gt;
+
+        &lt;<span class="hl-comment">!-- shortcut for bean references --</span>&gt;
+        &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"ref"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+        	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Refers</span> <span class="hl-attribute">by</span> <span class="hl-attribute">name</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">receive</span> <span class="hl-attribute">bind</span> <span class="hl-attribute">and</span> <span class="hl-attribute">unbind</span> <span class="hl-attribute">events</span>
+        		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+        <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"bind-method"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:token"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+        	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">The</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">method</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">invoked</span> <span class="hl-attribute">when</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span> <span class="hl-attribute">bound.</span>
+        		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+        <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"unbind-method"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:token"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+        	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">The</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">method</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">invoked</span> <span class="hl-attribute">when</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span> <span class="hl-attribute">unbound.</span>
+        		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+    
+    <span class="hl-attribute">&lt;!--</span> <span class="hl-attribute">single</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">--&gt;</span>
+    <span class="hl-attribute">&lt;xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TsingleReference"</span>&gt;
+        &lt;<span class="hl-tag">xsd:complexContent</span>&gt;
+            &lt;<span class="hl-tag">xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"Treference"</span>&gt;
+                 &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"availability"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TavailabilityOptions"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">the</span> <span class="hl-attribute">required</span> <span class="hl-attribute">availability</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">not</span> <span class="hl-attribute">specified,</span> 
+    <span class="hl-attribute">the</span> <span class="hl-attribute">default-availability</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">apply.</span> <span class="hl-attribute">'mandatory'</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> 
+    <span class="hl-attribute">must</span> <span class="hl-attribute">exist,</span> <span class="hl-attribute">'optional'</span> <span class="hl-attribute">indicates</span> <span class="hl-attribute">that</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> <span class="hl-attribute">acceptable</span> <span class="hl-attribute">to</span> <span class="hl-attribute">have</span> <span class="hl-attribute">no</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service.</span>
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                 <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                 <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"cardinality"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TsingleReferenceCardinality"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">As</span> <span class="hl-attribute">of</span> <span class="hl-attribute">Gemini</span> <span class="hl-attribute">Blueprint,</span> <span class="hl-attribute">'cardinality'</span> <span class="hl-attribute">has</span> <span class="hl-attribute">been</span> <span class="hl-attribute">replaced</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">'availability'</span> <span class="hl-attribute">attribute.</span>
+	                      	
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">the</span> <span class="hl-attribute">required</span> <span class="hl-attribute">cardinality</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">relationship</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">not</span> <span class="hl-attribute">specified,</span> 
+    <span class="hl-attribute">the</span> <span class="hl-attribute">default-cardinality</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">apply.</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'1..1'</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> 
+    <span class="hl-attribute">must</span> <span class="hl-attribute">exist</span> <span class="hl-attribute">(this</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">mandatory</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference).</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'0..1'</span> <span class="hl-attribute">indicates</span> <span class="hl-attribute">that</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> 
+    <span class="hl-attribute">acceptable</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">no</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">(an</span> <span class="hl-attribute">optional</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference).</span>
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+				<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"timeout"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:nonNegativeInteger"</span>&gt;
+                    &lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">For</span> <span class="hl-attribute">a</span> <span class="hl-attribute">'reference'</span> <span class="hl-attribute">element,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">amount</span> <span class="hl-attribute">of</span> <span class="hl-attribute">time</span> <span class="hl-attribute">(in</span> <span class="hl-attribute">milliseconds)</span> <span class="hl-attribute">to</span> <span class="hl-attribute">wait</span> <span class="hl-attribute">for</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> 
+    <span class="hl-attribute">available</span> <span class="hl-attribute">when</span> <span class="hl-attribute">an</span> <span class="hl-attribute">operation</span> <span class="hl-attribute">is</span> <span class="hl-attribute">invoked.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">not</span> <span class="hl-attribute">specified,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">default-timeout</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">apply.</span>
+    <span class="hl-attribute">See</span> <span class="hl-attribute">also</span> <span class="hl-attribute">the</span> <span class="hl-attribute">default-timeout</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">osgi</span> <span class="hl-attribute">element.</span>
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"sticky"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:boolean"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"true"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">the</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">changed</span> <span class="hl-attribute">if</span> <span class="hl-attribute">a</span> <span class="hl-attribute">'better'</span> <span class="hl-attribute">OSGi</span> <span class="hl-attribute">service</span> <span class="hl-attribute">becomes</span>
+    <span class="hl-attribute">available.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">'true',</span> <span class="hl-attribute">the</span> <span class="hl-attribute">proxy</span> <span class="hl-attribute">will</span> <span class="hl-attribute">rebind</span> <span class="hl-attribute">only</span> <span class="hl-attribute">if</span> <span class="hl-attribute">the</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span> <span class="hl-attribute">no</span> <span class="hl-attribute">longer</span> <span class="hl-attribute">available.</span> 
+    <span class="hl-attribute">If</span> <span class="hl-attribute">'false',</span> <span class="hl-attribute">the</span> <span class="hl-attribute">rebind</span> <span class="hl-attribute">will</span> <span class="hl-attribute">occur</span> <span class="hl-attribute">every</span> <span class="hl-attribute">time</span> <span class="hl-attribute">a</span> <span class="hl-attribute">'better'</span> <span class="hl-attribute">candidate</span> <span class="hl-attribute">appears.</span> <span class="hl-attribute">A</span> <span class="hl-attribute">better</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span>
+    <span class="hl-attribute">defined</span> <span class="hl-attribute">by</span> <span class="hl-attribute">having</span> <span class="hl-attribute">either</span> <span class="hl-attribute">a</span> <span class="hl-attribute">higher</span> <span class="hl-attribute">ranking</span> <span class="hl-attribute">or</span> <span class="hl-attribute">the</span> <span class="hl-attribute">same</span> <span class="hl-attribute">ranking</span> <span class="hl-attribute">and</span> <span class="hl-attribute">a</span> <span class="hl-attribute">lower</span> <span class="hl-attribute">service</span> <span class="hl-attribute">id.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+            <span class="hl-attribute">&lt;/xsd:extension&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:complexContent&gt;</span>
+   <span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+   
+   <span class="hl-attribute">&lt;xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TsingleReferenceCardinality"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"1..1"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"0..1"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:restriction</span>&gt;
+   &lt;<span class="hl-tag">/xsd:simpleType</span>&gt;
+
+	&lt;<span class="hl-comment">!-- reference collections (set, list) --</span>&gt;
+	&lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"list"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TreferenceCollection"</span>&gt;
+		&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+			&lt;<span class="hl-tag">xsd:documentation</span> <span class="hl-attribute">source</span>=<span class="hl-value">"java:org.eclipse.gemini.blueprint.service.importer.support.OsgiServiceCollectionProxyFactoryBean"</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">of</span> <span class="hl-attribute">type</span> <span class="hl-attribute">'List'</span> <span class="hl-attribute">that</span> <span class="hl-attribute">contains</span> <span class="hl-attribute">all</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">services</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">the</span> <span class="hl-attribute">given</span> <span class="hl-attribute">criteria.</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">list</span> <span class="hl-attribute">members</span> <span class="hl-attribute">are</span> <span class="hl-attribute">managed</span> <span class="hl-attribute">dynamically</span> <span class="hl-attribute">as</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">services</span> <span class="hl-attribute">come</span> <span class="hl-attribute">and</span> <span class="hl-attribute">go.</span>
+			<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+				<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+					<span class="hl-attribute">&lt;tool:exports</span> <span class="hl-attribute">type</span>=<span class="hl-value">"java.util.List"</span>/&gt;
+				&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+			&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;			
+		&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+	&lt;<span class="hl-tag">/xsd:element</span>&gt;
+
+	&lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"set"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TreferenceCollection"</span>&gt;
+		&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+			&lt;<span class="hl-tag">xsd:documentation</span> <span class="hl-attribute">source</span>=<span class="hl-value">"java:org.eclipse.gemini.blueprint.service.importer.support.OsgiServiceCollectionProxyFactoryBean"</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">of</span> <span class="hl-attribute">type</span> <span class="hl-attribute">'Set'</span> <span class="hl-attribute">that</span> <span class="hl-attribute">contains</span> <span class="hl-attribute">all</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">services</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">the</span> <span class="hl-attribute">given</span> <span class="hl-attribute">criteria.</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">set</span> <span class="hl-attribute">members</span> <span class="hl-attribute">are</span> <span class="hl-attribute">managed</span> <span class="hl-attribute">dynamically</span> <span class="hl-attribute">as</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">services</span> <span class="hl-attribute">come</span> <span class="hl-attribute">and</span> <span class="hl-attribute">go.</span>
+			<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+				<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+					<span class="hl-attribute">&lt;tool:exports</span> <span class="hl-attribute">type</span>=<span class="hl-value">"java.util.Set"</span>/&gt;
+				&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+			&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;			
+		&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+	&lt;<span class="hl-tag">/xsd:element</span>&gt;
+
+	&lt;<span class="hl-tag">xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TreferenceCollection"</span>&gt;
+		&lt;<span class="hl-tag">xsd:complexContent</span>&gt;
+			&lt;<span class="hl-tag">xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"Treference"</span>&gt;
+				&lt;<span class="hl-tag">xsd:sequence</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+					&lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"comparator"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"Tcomparator"</span>&gt;
+						&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+							&lt;<span class="hl-tag">xsd:documentation</span> <span class="hl-attribute">source</span>=<span class="hl-value">"java:java.util.Comparator"</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">define</span> <span class="hl-attribute">an</span> <span class="hl-attribute">inline</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">of</span> <span class="hl-attribute">type</span> <span class="hl-attribute">Comparator</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">sort</span> <span class="hl-attribute">the</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">services.</span>
+							<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+							<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+								<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+									<span class="hl-attribute">&lt;tool:expected-type</span> <span class="hl-attribute">type</span>=<span class="hl-value">"java.util.Comparator"</span> /&gt;
+  								&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+							&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;
+						&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+					&lt;<span class="hl-tag">/xsd:element</span>&gt;
+				&lt;<span class="hl-tag">/xsd:sequence</span>&gt;
+				&lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"comparator-ref"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+					&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+						&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">refer</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">named</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">implementing</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Comparator</span> <span class="hl-attribute">interface</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> 
+	<span class="hl-attribute">sort</span> <span class="hl-attribute">the</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">services.</span>
+						<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+					<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+				<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+			    <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"availability"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TavailabilityOptions"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">the</span> <span class="hl-attribute">required</span> <span class="hl-attribute">availability</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">not</span> <span class="hl-attribute">specified,</span> 
+    <span class="hl-attribute">the</span> <span class="hl-attribute">default-availability</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">apply.</span> <span class="hl-attribute">'mandatory'</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">a</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> 
+    <span class="hl-attribute">must</span> <span class="hl-attribute">exist,</span> <span class="hl-attribute">'optional'</span> <span class="hl-attribute">indicates</span> <span class="hl-attribute">that</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> <span class="hl-attribute">acceptable</span> <span class="hl-attribute">to</span> <span class="hl-attribute">have</span> <span class="hl-attribute">no</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service.</span>
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+			    <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"cardinality"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TcollectionCardinality"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">As</span> <span class="hl-attribute">of</span> <span class="hl-attribute">Gemini</span> <span class="hl-attribute">Blueprint,</span> <span class="hl-attribute">'cardinality'</span> <span class="hl-attribute">has</span> <span class="hl-attribute">been</span> <span class="hl-attribute">replaced</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">'availability'</span> <span class="hl-attribute">attribute.</span>
+	                      	
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">the</span> <span class="hl-attribute">required</span> <span class="hl-attribute">cardinality</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">relationship</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">services.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">not</span> <span class="hl-attribute">specified,</span> 
+    <span class="hl-attribute">the</span> <span class="hl-attribute">default-cardinality</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">apply.</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'1..N'</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">at</span> <span class="hl-attribute">least</span> <span class="hl-attribute">one</span> <span class="hl-attribute">backing</span> 
+    <span class="hl-attribute">service</span> <span class="hl-attribute">must</span> <span class="hl-attribute">exist</span> <span class="hl-attribute">(this</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">mandatory</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference.</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'0..N'</span> <span class="hl-attribute">indicates</span> <span class="hl-attribute">that</span> <span class="hl-attribute">it</span> 
+    <span class="hl-attribute">is</span> <span class="hl-attribute">acceptable</span> <span class="hl-attribute">for</span> <span class="hl-attribute">there</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">no</span> <span class="hl-attribute">backing</span> <span class="hl-attribute">service</span> <span class="hl-attribute">(an</span> <span class="hl-attribute">optional</span> <span class="hl-attribute">service</span> <span class="hl-attribute">reference).</span>
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+			    <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"greedy-proxying"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:boolean"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"false"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                      	&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Indicates</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">the</span> <span class="hl-attribute">proxies</span> <span class="hl-attribute">created</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">imported</span> <span class="hl-attribute">OSGi</span> <span class="hl-attribute">services</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">generated</span> <span class="hl-attribute">using</span> 
+    <span class="hl-attribute">just</span> <span class="hl-attribute">the</span> <span class="hl-attribute">classes</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">(false)</span> <span class="hl-attribute">or</span> <span class="hl-attribute">all</span> <span class="hl-attribute">the</span> <span class="hl-attribute">classes</span> <span class="hl-attribute">exported</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">and</span> <span class="hl-attribute">visible</span> <span class="hl-attribute">to</span>
+    <span class="hl-attribute">the</span> <span class="hl-attribute">importing</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">(true).</span> <span class="hl-attribute">The</span> <span class="hl-attribute">default</span> <span class="hl-attribute">value</span> <span class="hl-attribute">is</span> <span class="hl-attribute">false.</span>
+                      	<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                      <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"member-type"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TmemberType"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"service-object"</span>&gt;
+                    &lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                        &lt;<span class="hl-tag">xsd:documentation</span>&gt;
+                          &lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Indicates</span> <span class="hl-attribute">the</span> <span class="hl-attribute">type</span> <span class="hl-attribute">of</span> <span class="hl-attribute">object</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">placed</span> <span class="hl-attribute">within</span> <span class="hl-attribute">the</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">collection.</span>  
+    <span class="hl-attribute">'service-object'</span> <span class="hl-attribute">indicates</span> <span class="hl-attribute">the</span> <span class="hl-attribute">collection</span> <span class="hl-attribute">contains</span> <span class="hl-attribute">service</span> <span class="hl-attribute">proxies</span> <span class="hl-attribute">for</span> <span class="hl-attribute">imported</span> <span class="hl-attribute">services.</span>
+    <span class="hl-attribute">'service-reference'</span> <span class="hl-attribute">indicates</span> <span class="hl-attribute">the</span> <span class="hl-attribute">collection</span> <span class="hl-attribute">contains</span> <span class="hl-attribute">ServiceReference</span> <span class="hl-attribute">objects</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">the</span> 
+    <span class="hl-attribute">target</span> <span class="hl-attribute">service</span> <span class="hl-attribute">type.</span>
+                          <span class="hl-attribute">]]&gt;</span>
+                        <span class="hl-attribute">&lt;/xsd:documentation&gt;</span>
+                    <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+			<span class="hl-attribute">&lt;/xsd:extension&gt;</span>
+		<span class="hl-attribute">&lt;/xsd:complexContent&gt;</span>
+	<span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+	
+	<span class="hl-attribute">&lt;xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"Tcomparator"</span>&gt;
+		&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+			&lt;<span class="hl-tag">xsd:documentation</span> <span class="hl-attribute">source</span>=<span class="hl-value">"java:java.util.Comparator"</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">define</span> <span class="hl-attribute">an</span> <span class="hl-attribute">inline</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">of</span> <span class="hl-attribute">type</span> <span class="hl-attribute">Comparator</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">sort</span> <span class="hl-attribute">the</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">services.</span>
+			<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+				<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+					<span class="hl-attribute">&lt;tool:exports</span> <span class="hl-attribute">type</span>=<span class="hl-value">"java.util.Comparator"</span> /&gt;
+  				&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+			&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;
+		&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+		&lt;<span class="hl-tag">xsd:choice</span>&gt;
+		   &lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"natural"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TnaturalOrdering"</span>/&gt;
+     	   &lt;<span class="hl-tag">xsd:sequence</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+        	    &lt;<span class="hl-comment">!-- nested bean declaration --</span>&gt;
+           		&lt;<span class="hl-tag">xsd:any</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"##other"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">processContents</span>=<span class="hl-value">"skip"</span>/&gt;
+        	&lt;<span class="hl-tag">/xsd:sequence</span>&gt;
+        &lt;<span class="hl-tag">/xsd:choice</span>&gt;
+	&lt;<span class="hl-tag">/xsd:complexType</span>&gt;
+	
+	&lt;<span class="hl-tag">xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TnaturalOrdering"</span>&gt;
+		&lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"basis"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TorderingBasis"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"required"</span>/&gt;
+	&lt;<span class="hl-tag">/xsd:complexType</span>&gt;
+	
+	&lt;<span class="hl-tag">xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TorderingBasis"</span>&gt;
+		&lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"service"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"service-reference"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:restriction</span>&gt;
+	&lt;<span class="hl-tag">/xsd:simpleType</span>&gt;
+	
+    &lt;<span class="hl-tag">xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TmemberType"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"service-object"</span> /&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"service-reference"</span> /&gt;
+        &lt;<span class="hl-tag">/xsd:restriction</span>&gt;
+    &lt;<span class="hl-tag">/xsd:simpleType</span>&gt;	
+	
+	&lt;<span class="hl-tag">xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TcollectionCardinality"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"1..N"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"0..N"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:restriction</span>&gt;
+   &lt;<span class="hl-tag">/xsd:simpleType</span>&gt;
+	
+    &lt;<span class="hl-comment">!-- service --</span>&gt;
+    
+    &lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"service"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"Tservice"</span>/&gt;
+
+    &lt;<span class="hl-tag">xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TbaseService"</span>&gt;
+        &lt;<span class="hl-tag">xsd:complexContent</span>&gt;
+           &lt;<span class="hl-tag">xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"beans:identifiedType"</span>&gt;
+                &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"interface"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:token"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">the</span> <span class="hl-attribute">interface</span> <span class="hl-attribute">to</span> <span class="hl-attribute">advertise</span> <span class="hl-attribute">for</span> <span class="hl-attribute">this</span> <span class="hl-attribute">service</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+						<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+							<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+  								<span class="hl-attribute">&lt;tool:expected-type</span> <span class="hl-attribute">type</span>=<span class="hl-value">"java.lang.Class"</span> /&gt;
+  							&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+						&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;  							
+                	&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+                &lt;<span class="hl-tag">/xsd:attribute</span>&gt;
+                &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"depends-on"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">ensure</span> <span class="hl-attribute">that</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span> <span class="hl-attribute">not</span> <span class="hl-attribute">exported</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">registry</span> <span class="hl-attribute">before</span> <span class="hl-attribute">the</span> <span class="hl-attribute">named</span> <span class="hl-attribute">bean</span>
+    <span class="hl-attribute">has</span> <span class="hl-attribute">been</span> <span class="hl-attribute">created.</span> 
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"context-class-loader"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TserviceClassLoaderOptions"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"unmanaged"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">how</span> <span class="hl-attribute">the</span> <span class="hl-attribute">context</span> <span class="hl-attribute">class</span> <span class="hl-attribute">loader</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">managed</span> <span class="hl-attribute">when</span> <span class="hl-attribute">an</span> <span class="hl-attribute">operation</span> <span class="hl-attribute">is</span> <span class="hl-attribute">invoked</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> 
+    <span class="hl-attribute">exported</span> <span class="hl-attribute">service.</span> <span class="hl-attribute">The</span> <span class="hl-attribute">default</span> <span class="hl-attribute">value</span> <span class="hl-attribute">is</span> <span class="hl-attribute">'unmanaged'</span> <span class="hl-attribute">which</span> <span class="hl-attribute">means</span> <span class="hl-attribute">that</span> <span class="hl-attribute">no</span> <span class="hl-attribute">management</span> <span class="hl-attribute">of</span> 
+    <span class="hl-attribute">the</span> <span class="hl-attribute">context</span> <span class="hl-attribute">class</span> <span class="hl-attribute">loader</span> <span class="hl-attribute">is</span> <span class="hl-attribute">attempted.</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'service-provider'</span> <span class="hl-attribute">guarantees</span> <span class="hl-attribute">that</span>
+    <span class="hl-attribute">the</span> <span class="hl-attribute">context</span> <span class="hl-attribute">class</span> <span class="hl-attribute">loader</span> <span class="hl-attribute">will</span> <span class="hl-attribute">have</span> <span class="hl-attribute">visibility</span> <span class="hl-attribute">of</span> <span class="hl-attribute">all</span> <span class="hl-attribute">the</span> <span class="hl-attribute">resources</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">class</span> <span class="hl-attribute">path</span> <span class="hl-attribute">of</span> 
+    <span class="hl-attribute">bundle</span> <span class="hl-attribute">exporting</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"auto-export"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TautoExportModes"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"disabled"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Enables</span> <span class="hl-attribute">Spring</span> <span class="hl-attribute">to</span> <span class="hl-attribute">automatically</span> <span class="hl-attribute">manage</span> <span class="hl-attribute">the</span> <span class="hl-attribute">set</span> <span class="hl-attribute">of</span> <span class="hl-attribute">service</span> <span class="hl-attribute">interfaces</span> <span class="hl-attribute">advertised</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span>
+    <span class="hl-attribute">service.</span> <span class="hl-attribute">By</span> <span class="hl-attribute">default</span> <span class="hl-attribute">this</span> <span class="hl-attribute">facility</span> <span class="hl-attribute">is</span> <span class="hl-attribute">disabled.</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'interfaces'</span> <span class="hl-attribute">advertises</span> <span class="hl-attribute">all</span> 
+    <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">interfaces</span> <span class="hl-attribute">supported</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">exported</span> <span class="hl-attribute">service.</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'class-hierarchy'</span> 
+    <span class="hl-attribute">advertises</span> <span class="hl-attribute">all</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">classes</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">hierarchy</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">exported</span> <span class="hl-attribute">service.</span> <span class="hl-attribute">A</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> 
+    <span class="hl-attribute">'all-classes'</span> <span class="hl-attribute">advertises</span> <span class="hl-attribute">all</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">interfaces</span> <span class="hl-attribute">and</span> <span class="hl-attribute">classes.</span> 
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:extension&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:complexContent&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+    
+    <span class="hl-attribute">&lt;xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"Tservice"</span>&gt;
+    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span> <span class="hl-attribute">source</span>=<span class="hl-value">"java:org.eclipse.gemini.blueprint.service.exporter.support.OsgiServiceFactoryBean"</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Exports</span> <span class="hl-attribute">the</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">as</span> <span class="hl-attribute">a</span> <span class="hl-attribute">service</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">OSGi</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span> <span class="hl-attribute">The</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">defined</span> <span class="hl-attribute">by</span> <span class="hl-attribute">this</span> <span class="hl-attribute">element</span> <span class="hl-attribute">is</span> <span class="hl-attribute">of</span> 
+    <span class="hl-attribute">type</span> <span class="hl-attribute">org.osgi.framework.ServiceRegistration.</span>
+    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+				<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+					<span class="hl-attribute">&lt;tool:exports</span> <span class="hl-attribute">type</span>=<span class="hl-value">"org.osgi.framework.ServiceRegistration"</span>/&gt;
+				&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+			&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;			
+    	&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+        &lt;<span class="hl-tag">xsd:complexContent</span>&gt;
+            &lt;<span class="hl-tag">xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"TbaseService"</span>&gt;
+            	&lt;<span class="hl-tag">xsd:sequence</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+                    &lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"interfaces"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"beans:listOrSetType"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+                    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">The</span> <span class="hl-attribute">set</span> <span class="hl-attribute">of</span> <span class="hl-attribute">service</span> <span class="hl-attribute">interfaces</span> <span class="hl-attribute">to</span> <span class="hl-attribute">advertise</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span>
+                    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                    <span class="hl-attribute">&lt;/xsd:element&gt;</span>
+                    <span class="hl-attribute">&lt;xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"registration-listener"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TserviceRegistrationListener"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"unbounded"</span>&gt;
+                    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">listener</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">notified</span> <span class="hl-attribute">when</span> <span class="hl-attribute">this</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span> <span class="hl-attribute">registered</span> <span class="hl-attribute">or</span> <span class="hl-attribute">unregistered</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span>
+    <span class="hl-attribute">OSGi</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span>
+                    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:element&gt;</span>
+                    <span class="hl-attribute">&lt;xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"service-properties"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TserviceProperties"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+                       	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">properties.</span>
+                    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                    <span class="hl-attribute">&lt;/xsd:element&gt;</span>
+                    <span class="hl-attribute">&lt;!--</span> <span class="hl-attribute">nested</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">declaration</span> <span class="hl-attribute">--&gt;</span>
+                	<span class="hl-attribute">&lt;xsd:any</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"##other"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">processContents</span>=<span class="hl-value">"skip"</span>/&gt;
+                &lt;<span class="hl-tag">/xsd:sequence</span>&gt;
+                &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"ref"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Refers</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">named</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">exported</span> <span class="hl-attribute">as</span> <span class="hl-attribute">a</span> <span class="hl-attribute">service</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"ranking"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:int"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"0"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Specifies</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">ranking</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">when</span> <span class="hl-attribute">advertising</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"cache-target"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:boolean"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"false"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Specifies</span> <span class="hl-attribute">the</span> <span class="hl-attribute">caching</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">exported</span> <span class="hl-attribute">target</span> <span class="hl-attribute">object.</span> <span class="hl-attribute">When</span> <span class="hl-attribute">enabled,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">exporter</span> <span class="hl-attribute">will</span> <span class="hl-attribute">ignore</span> <span class="hl-attribute">the</span> <span class="hl-attribute">scope</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> 
+    <span class="hl-attribute">target</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">and</span>	<span class="hl-attribute">use</span> <span class="hl-attribute">only</span> <span class="hl-attribute">the</span> <span class="hl-attribute">first</span> <span class="hl-attribute">resolved</span> <span class="hl-attribute">instance</span> <span class="hl-attribute">for</span> <span class="hl-attribute">registration.</span> <span class="hl-attribute">When</span> <span class="hl-attribute">disabled</span> <span class="hl-attribute">(default),</span> <span class="hl-attribute">the</span> <span class="hl-attribute">scope</span> <span class="hl-attribute">of</span> 
+    <span class="hl-attribute">the</span> <span class="hl-attribute">target</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">is</span> <span class="hl-attribute">considered</span> <span class="hl-attribute">and</span> <span class="hl-attribute">each</span> <span class="hl-attribute">service</span> <span class="hl-attribute">request,</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">directed</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">container.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+            <span class="hl-attribute">&lt;/xsd:extension&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:complexContent&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+
+    <span class="hl-attribute">&lt;xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TserviceProperties"</span>&gt;
+    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Services</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">used</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">exporter.</span>
+    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+				<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+					<span class="hl-attribute">&lt;tool:exports</span> <span class="hl-attribute">type</span>=<span class="hl-value">"java.util.Map"</span>/&gt;
+				&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+			&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;
+    	&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+    	
+    	&lt;<span class="hl-tag">xsd:complexContent</span>&gt;
+            &lt;<span class="hl-tag">xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"beans:mapType"</span>&gt;
+            	&lt;<span class="hl-comment">!-- shortcut for bean references --</span>&gt;
+        		&lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"ref"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+        			&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        				&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Refers</span> <span class="hl-attribute">by</span> <span class="hl-attribute">name</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">receive</span> <span class="hl-attribute">register</span> <span class="hl-attribute">and</span> <span class="hl-attribute">unregister</span> <span class="hl-attribute">events.</span>
+    		    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        			<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        		<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+    		<span class="hl-attribute">&lt;/xsd:extension&gt;</span>
+    	<span class="hl-attribute">&lt;/xsd:complexContent&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+
+    <span class="hl-attribute">&lt;xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TserviceRegistrationListener"</span>&gt;
+    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">listener</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">notified</span> <span class="hl-attribute">when</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">is</span> <span class="hl-attribute">registered</span> <span class="hl-attribute">or</span> <span class="hl-attribute">unregistered</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">OSGi</span> <span class="hl-attribute">Service</span> <span class="hl-attribute">Registry.</span> 
+    <span class="hl-attribute">Use</span> <span class="hl-attribute">either</span> <span class="hl-attribute">the</span> <span class="hl-attribute">'ref'</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">or</span> <span class="hl-attribute">a</span> <span class="hl-attribute">nested</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">declaration</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">listener</span> <span class="hl-attribute">bean.</span>
+    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;xsd:sequence</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+            &lt;<span class="hl-comment">!-- nested bean declaration --</span>&gt;
+            &lt;<span class="hl-tag">xsd:any</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"##other"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">processContents</span>=<span class="hl-value">"skip"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:sequence</span>&gt;
+
+        &lt;<span class="hl-comment">!-- shortcut for bean references --</span>&gt;
+        &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"ref"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+        	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Refers</span> <span class="hl-attribute">by</span> <span class="hl-attribute">name</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">receive</span> <span class="hl-attribute">register</span> <span class="hl-attribute">and</span> <span class="hl-attribute">unregister</span> <span class="hl-attribute">events.</span>
+        		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+        <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"registration-method"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:token"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+        	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">The</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">method</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">invoked</span> <span class="hl-attribute">when</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span> <span class="hl-attribute">registered.</span>
+        		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+        <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"unregistration-method"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:token"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+        	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">The</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">method</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">invoked</span> <span class="hl-attribute">when</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span> <span class="hl-attribute">unregistered.</span>
+        		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+        	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+
+    <span class="hl-attribute">&lt;xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TserviceClassLoaderOptions"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"service-provider"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"unmanaged"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:restriction</span>&gt;
+    &lt;<span class="hl-tag">/xsd:simpleType</span>&gt;
+
+    &lt;<span class="hl-tag">xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TautoExportModes"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"disabled"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"interfaces"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"class-hierarchy"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"all-classes"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:restriction</span>&gt;
+    &lt;<span class="hl-tag">/xsd:simpleType</span>&gt;
+
+    &lt;<span class="hl-comment">!-- bundle --</span>&gt;
+
+    &lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"bundle"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"Tbundle"</span>&gt;
+    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span> <span class="hl-attribute">source</span>=<span class="hl-value">"java:org.eclipse.gemini.blueprint.bundle.BundleFactoryBean"</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">representing</span> <span class="hl-attribute">a</span> <span class="hl-attribute">Bundle</span> <span class="hl-attribute">object.</span> <span class="hl-attribute">May</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">drive</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">lifecycle</span> <span class="hl-attribute">transitions.</span>
+    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+				<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+					<span class="hl-attribute">&lt;tool:exports</span> <span class="hl-attribute">type</span>=<span class="hl-value">"org.osgi.framework.Bundle"</span>/&gt;
+				&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+			&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;    		
+    	&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+    &lt;<span class="hl-tag">/xsd:element</span>&gt;
+
+    &lt;<span class="hl-tag">xsd:complexType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"Tbundle"</span>&gt;
+        &lt;<span class="hl-tag">xsd:complexContent</span>&gt;
+            &lt;<span class="hl-tag">xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"beans:identifiedType"</span>&gt;
+              	&lt;<span class="hl-comment">!-- optional nested bean declaration --</span>&gt;
+                &lt;<span class="hl-tag">xsd:sequence</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+		    		&lt;<span class="hl-tag">xsd:any</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"##other"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">processContents</span>=<span class="hl-value">"lax"</span>&gt;
+            		   	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">OSGi</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">to</span> <span class="hl-attribute">work</span> <span class="hl-attribute">with.</span>
+                    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+							<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+								<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+  									<span class="hl-attribute">&lt;tool:expected-type</span> <span class="hl-attribute">type</span>=<span class="hl-value">"org.osgi.framework.Bundle"</span> /&gt;
+  								&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+							&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;  							
+                    	&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+            		&lt;<span class="hl-tag">/xsd:any</span>&gt;
+        		&lt;<span class="hl-tag">/xsd:sequence</span>&gt;
+        		
+                &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"symbolic-name"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">The</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">symbolic</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">object.</span> <span class="hl-attribute">Normally</span> <span class="hl-attribute">used</span> <span class="hl-attribute">when</span> <span class="hl-attribute">interacting</span> <span class="hl-attribute">with</span> <span class="hl-attribute">an</span> <span class="hl-attribute">already</span>
+    <span class="hl-attribute">installed</span> <span class="hl-attribute">bundle.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"depends-on"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Indicates</span> <span class="hl-attribute">that</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">object</span> <span class="hl-attribute">should</span> <span class="hl-attribute">not</span> <span class="hl-attribute">be</span> <span class="hl-attribute">created</span> <span class="hl-attribute">until</span> <span class="hl-attribute">the</span> <span class="hl-attribute">named</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">has</span> <span class="hl-attribute">been</span> <span class="hl-attribute">created.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+               
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"location"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Location</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">install,</span> <span class="hl-attribute">update</span> <span class="hl-attribute">or/and</span> <span class="hl-attribute">identify</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bundle.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"action"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TbundleAction"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Lifecyle</span> <span class="hl-attribute">action</span> <span class="hl-attribute">to</span> <span class="hl-attribute">drive</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle.</span> <span class="hl-attribute">'start'</span> <span class="hl-attribute">starts</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle,</span> <span class="hl-attribute">installing</span> <span class="hl-attribute">if</span> <span class="hl-attribute">necessary.</span>
+    <span class="hl-attribute">'stop'</span> <span class="hl-attribute">stops</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">if</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> <span class="hl-attribute">currently</span> <span class="hl-attribute">ACTIVE.</span> <span class="hl-attribute">'install'</span> <span class="hl-attribute">installs</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">if</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> 
+    <span class="hl-attribute">currently</span> <span class="hl-attribute">uninstalled.</span> <span class="hl-attribute">'uninstall'</span> <span class="hl-attribute">stops</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">if</span> <span class="hl-attribute">needed,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">then</span> <span class="hl-attribute">uninstalls</span> <span class="hl-attribute">it.</span>
+    <span class="hl-attribute">'update'</span> <span class="hl-attribute">installs</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">if</span> <span class="hl-attribute">needed,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">then</span> <span class="hl-attribute">invokes</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Bundle.update()</span> <span class="hl-attribute">operation.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"destroy-action"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"TbundleAction"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Lifecyle</span> <span class="hl-attribute">action</span> <span class="hl-attribute">to</span> <span class="hl-attribute">drive</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle.</span> <span class="hl-attribute">'start'</span> <span class="hl-attribute">starts</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle,</span> <span class="hl-attribute">installing</span> <span class="hl-attribute">if</span> <span class="hl-attribute">necessary.</span>
+    <span class="hl-attribute">'stop'</span> <span class="hl-attribute">stops</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">if</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> <span class="hl-attribute">currently</span> <span class="hl-attribute">ACTIVE.</span> <span class="hl-attribute">'install'</span> <span class="hl-attribute">installs</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">if</span> <span class="hl-attribute">it</span> <span class="hl-attribute">is</span> 
+    <span class="hl-attribute">currently</span> <span class="hl-attribute">uninstalled.</span> <span class="hl-attribute">'uninstall'</span> <span class="hl-attribute">stops</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">if</span> <span class="hl-attribute">needed,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">then</span> <span class="hl-attribute">uninstalls</span> <span class="hl-attribute">it.</span>
+    <span class="hl-attribute">'update'</span> <span class="hl-attribute">installs</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle</span> <span class="hl-attribute">if</span> <span class="hl-attribute">needed,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">then</span> <span class="hl-attribute">invokes</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Bundle.update()</span> <span class="hl-attribute">operation.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+                <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"start-level"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:int"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"0"</span>&gt;
+                	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+                		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Start</span> <span class="hl-attribute">level</span> <span class="hl-attribute">to</span> <span class="hl-attribute">set</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bundle.</span>
+                		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+                	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+                <span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+            <span class="hl-attribute">&lt;/xsd:extension&gt;</span>
+        <span class="hl-attribute">&lt;/xsd:complexContent&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+
+    <span class="hl-attribute">&lt;xsd:simpleType</span> <span class="hl-attribute">name</span>=<span class="hl-value">"TbundleAction"</span>&gt;
+        &lt;<span class="hl-tag">xsd:restriction</span> <span class="hl-attribute">base</span>=<span class="hl-value">"xsd:NMTOKEN"</span>&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"start"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"stop"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"install"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"uninstall"</span>/&gt;
+            &lt;<span class="hl-tag">xsd:enumeration</span> <span class="hl-attribute">value</span>=<span class="hl-value">"update"</span>/&gt;
+        &lt;<span class="hl-tag">/xsd:restriction</span>&gt;
+    &lt;<span class="hl-tag">/xsd:simpleType</span>&gt;
+
+&lt;<span class="hl-tag">/xsd:schema</span>&gt;
+    </pre><p>Gemini Blueprint Compendium Schema</p><pre class="programlisting">&lt;<span class="hl-tag">?xml version="1.0" encoding="UTF-8" standalone="no"?</span>&gt;
+
+&lt;<span class="hl-tag">xsd:schema</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://www.eclipse.org/gemini/blueprint/schema/blueprint-compendium"</span>
+            <span class="hl-attribute">xmlns:xsd</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema"</span>
+            <span class="hl-attribute">xmlns:beans</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>
+            <span class="hl-attribute">xmlns:osgi</span>=<span class="hl-value">"http://www.eclipse.org/gemini/blueprint/schema/blueprint"</span>
+            <span class="hl-attribute">xmlns:tool</span>=<span class="hl-value">"http://www.springframework.org/schema/tool"</span>
+            <span class="hl-attribute">targetNamespace</span>=<span class="hl-value">"http://www.eclipse.org/gemini/blueprint/schema/blueprint-compendium"</span>
+            <span class="hl-attribute">elementFormDefault</span>=<span class="hl-value">"qualified"</span>
+            <span class="hl-attribute">attributeFormDefault</span>=<span class="hl-value">"unqualified"</span>
+            <span class="hl-attribute">version</span>=<span class="hl-value">"1.0.0"</span>&gt;
+
+    &lt;<span class="hl-tag">xsd:import</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"http://www.w3.org/XML/1998/namespace"</span>/&gt;
+    &lt;<span class="hl-tag">xsd:import</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>/&gt;
+    &lt;<span class="hl-tag">xsd:import</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"http://www.springframework.org/schema/tool"</span>/&gt;
+    &lt;<span class="hl-tag">xsd:import</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"http://www.eclipse.org/gemini/blueprint/schema/blueprint"</span> 
+    	<span class="hl-attribute">schemaLocation</span>=<span class="hl-value">"http://www.eclipse.org/gemini/blueprint/schema/blueprint/gemini-blueprint.xsd"</span>/&gt; 
+    
+
+    &lt;<span class="hl-tag">xsd:annotation</span>&gt;
+        &lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Namespace</span> <span class="hl-attribute">support</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">compendium</span> <span class="hl-attribute">services</span> <span class="hl-attribute">provided</span> <span class="hl-attribute">by</span> <span class="hl-attribute">Eclipse</span> <span class="hl-attribute">Gemini</span> <span class="hl-attribute">Blueprint.</span>
+        <span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+
+	<span class="hl-attribute">&lt;!--</span> <span class="hl-attribute">internal</span> <span class="hl-attribute">reusable</span> <span class="hl-attribute">type</span> <span class="hl-attribute">--&gt;</span>
+	<span class="hl-attribute">&lt;xsd:attributeGroup</span> <span class="hl-attribute">name</span>=<span class="hl-value">"updateAttributes"</span>&gt;
+		&lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"autowire-on-update"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:boolean"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"false"</span>&gt;
+			&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+				&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Whether</span> <span class="hl-attribute">or</span> <span class="hl-attribute">not</span> <span class="hl-attribute">the</span> <span class="hl-attribute">container</span> <span class="hl-attribute">should</span> <span class="hl-attribute">autowire</span> <span class="hl-attribute">the</span> <span class="hl-attribute">target</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">everytime</span> <span class="hl-attribute">an</span> <span class="hl-attribute">update</span> <span class="hl-attribute">occurs.</span>
+	<span class="hl-attribute">When</span> <span class="hl-attribute">'true'</span> <span class="hl-attribute">is</span> <span class="hl-attribute">specified,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">container</span> <span class="hl-attribute">will</span> <span class="hl-attribute">perform</span> <span class="hl-attribute">autowire</span> <span class="hl-attribute">(by</span> <span class="hl-attribute">name)</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">instance</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span>
+	<span class="hl-attribute">newly</span> <span class="hl-attribute">set</span> <span class="hl-attribute">properties.</span> <span class="hl-attribute">In</span> <span class="hl-attribute">case</span> <span class="hl-attribute">'update-method'</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">is</span> <span class="hl-attribute">used</span> <span class="hl-attribute">as</span> <span class="hl-attribute">well,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">autowiring</span> <span class="hl-attribute">process</span> <span class="hl-attribute">will</span>
+	<span class="hl-attribute">take</span> <span class="hl-attribute">precedence.</span>
+				<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+		<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+		<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"update-method"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"optional"</span>&gt;
+			&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+				&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">update-method</span> <span class="hl-attribute">to</span> <span class="hl-attribute">invoke</span> <span class="hl-attribute">whenever</span> <span class="hl-attribute">an</span> <span class="hl-attribute">update</span> <span class="hl-attribute">occurs</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">configuration</span> <span class="hl-attribute">data.</span> <span class="hl-attribute">Allows</span> <span class="hl-attribute">the</span> <span class="hl-attribute">target</span>
+	<span class="hl-attribute">bean</span> <span class="hl-attribute">to</span> <span class="hl-attribute">process</span> <span class="hl-attribute">the</span> <span class="hl-attribute">update</span> <span class="hl-attribute">information</span> <span class="hl-attribute">itself.</span> <span class="hl-attribute">In</span> <span class="hl-attribute">case</span> <span class="hl-attribute">'autowire-on-update'</span> <span class="hl-attribute">is</span> <span class="hl-attribute">also</span> <span class="hl-attribute">used,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">'update-method'</span>
+	<span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">invoked</span> <span class="hl-attribute">after</span> <span class="hl-attribute">the</span> <span class="hl-attribute">autowiring</span> <span class="hl-attribute">takes</span> <span class="hl-attribute">place.</span>
+				<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+		<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+	<span class="hl-attribute">&lt;/xsd:attributeGroup&gt;</span>
+    
+    
+    <span class="hl-attribute">&lt;xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"managed-properties"</span>&gt;
+    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">based</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">given</span> <span class="hl-attribute">class</span> <span class="hl-attribute">name</span> <span class="hl-attribute">and</span> <span class="hl-attribute">configuration,</span> <span class="hl-attribute">with</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">autowired-by-name</span> 
+    <span class="hl-attribute">based</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">configuration</span> <span class="hl-attribute">stored</span> <span class="hl-attribute">under</span> <span class="hl-attribute">the</span> <span class="hl-attribute">given</span> <span class="hl-attribute">persistent</span> <span class="hl-attribute">id.</span>
+    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+    	<span class="hl-attribute">&lt;xsd:complexType&gt;</span>
+		    <span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"persistent-id"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"required"</span>&gt;
+				&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+					&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">persistent-id</span> <span class="hl-attribute">under</span> <span class="hl-attribute">which</span> <span class="hl-attribute">the</span> <span class="hl-attribute">configuration</span> <span class="hl-attribute">for</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">is</span> <span class="hl-attribute">stored</span> <span class="hl-attribute">in</span> 
+	<span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">service.</span>
+					<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+				<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+			<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+	       	<span class="hl-attribute">&lt;xsd:attributeGroup</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"updateAttributes"</span>/&gt;
+		&lt;<span class="hl-tag">/xsd:complexType</span>&gt;
+	&lt;<span class="hl-tag">/xsd:element</span>&gt;
+	
+    &lt;<span class="hl-comment">!--  managed-service-factory --</span>&gt;
+
+    &lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"managed-service-factory"</span>&gt;
+       	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">collection</span> <span class="hl-attribute">of</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">based</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">given</span> <span class="hl-attribute">class</span> <span class="hl-attribute">name,</span> <span class="hl-attribute">with</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">autowired-by-name</span> <span class="hl-attribute">based</span>
+    <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">configuration</span> <span class="hl-attribute">sets</span> <span class="hl-attribute">stored</span> <span class="hl-attribute">under</span> <span class="hl-attribute">the</span> <span class="hl-attribute">given</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">persistent</span> <span class="hl-attribute">id.</span>
+    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+        <span class="hl-attribute">&lt;xsd:complexType&gt;</span>
+        	<span class="hl-attribute">&lt;xsd:complexContent&gt;</span>
+	            <span class="hl-attribute">&lt;xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"osgi:TbaseService"</span>&gt;
+	            	&lt;<span class="hl-tag">xsd:sequence</span>&gt;
+	                    &lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"interfaces"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"beans:listOrSetType"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>&gt;
+	                    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+	                    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">The</span> <span class="hl-attribute">set</span> <span class="hl-attribute">of</span> <span class="hl-attribute">service</span> <span class="hl-attribute">interfaces</span> <span class="hl-attribute">to</span> <span class="hl-attribute">advertise</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span>
+	                    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+	                    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+	                    <span class="hl-attribute">&lt;/xsd:element&gt;</span>
+	                    <span class="hl-attribute">&lt;xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"registration-listener"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"osgi:TserviceRegistrationListener"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"unbounded"</span>&gt;
+	                    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+	                    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">listener</span> <span class="hl-attribute">that</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">notified</span> <span class="hl-attribute">when</span> <span class="hl-attribute">this</span> <span class="hl-attribute">service</span> <span class="hl-attribute">is</span> <span class="hl-attribute">registered</span> <span class="hl-attribute">or</span> <span class="hl-attribute">unregistered</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span>
+    <span class="hl-attribute">OSGi</span> <span class="hl-attribute">service</span> <span class="hl-attribute">registry.</span>
+	                    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+	                    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+	                	<span class="hl-attribute">&lt;/xsd:element&gt;</span>
+	                    <span class="hl-attribute">&lt;xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"service-properties"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"osgi:TserviceProperties"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"0"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span>/&gt;
+		            	&lt;<span class="hl-comment">!-- the bean definition template --</span>&gt;
+	                    &lt;<span class="hl-tag">xsd:any</span> <span class="hl-attribute">namespace</span>=<span class="hl-value">"##other"</span> <span class="hl-attribute">minOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">maxOccurs</span>=<span class="hl-value">"1"</span> <span class="hl-attribute">processContents</span>=<span class="hl-value">"skip"</span>&gt;
+	   				       	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+	                    		&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Defines</span> <span class="hl-attribute">the</span> <span class="hl-attribute">service</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">template.</span>
+	                    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+	                    	<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+	                    <span class="hl-attribute">&lt;/xsd:any&gt;</span>
+		           	<span class="hl-attribute">&lt;/xsd:sequence&gt;</span>
+		           	<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"factory-pid"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"required"</span>&gt;
+						&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+							&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">persistent-id</span> <span class="hl-attribute">under</span> <span class="hl-attribute">which</span> <span class="hl-attribute">the</span> <span class="hl-attribute">configuration</span> <span class="hl-attribute">for</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">is</span> <span class="hl-attribute">stored</span> <span class="hl-attribute">in</span> 
+	<span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">service.</span>
+							<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+						<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+					<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+					<span class="hl-attribute">&lt;xsd:attributeGroup</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"updateAttributes"</span>/&gt;
+				&lt;<span class="hl-tag">/xsd:extension</span>&gt;
+			&lt;<span class="hl-tag">/xsd:complexContent</span>&gt;
+		&lt;<span class="hl-tag">/xsd:complexType</span>&gt;
+	&lt;<span class="hl-tag">/xsd:element</span>&gt;
+	
+    
+    &lt;<span class="hl-comment">!-- cm-properties --</span>&gt;
+    &lt;<span class="hl-tag">xsd:element</span> <span class="hl-attribute">name</span>=<span class="hl-value">"cm-properties"</span>&gt;
+    	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+    		&lt;<span class="hl-tag">xsd:documentation</span> <span class="hl-attribute">source</span>=<span class="hl-value">"java:org.eclipse.gemini.blueprint.compendium.cm.ConfigAdminPropertiesFactoryBean"</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+    <span class="hl-attribute">Exposes</span> <span class="hl-attribute">the</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">found</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">service</span> <span class="hl-attribute">under</span> <span class="hl-attribute">the</span> <span class="hl-attribute">given</span> <span class="hl-attribute">persistent</span> <span class="hl-attribute">id.</span>
+    		<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+			<span class="hl-attribute">&lt;xsd:appinfo&gt;</span>
+				<span class="hl-attribute">&lt;tool:annotation&gt;</span>
+					<span class="hl-attribute">&lt;tool:exports</span> <span class="hl-attribute">type</span>=<span class="hl-value">"java.util.Properties"</span>/&gt;
+				&lt;<span class="hl-tag">/tool:annotation</span>&gt;
+			&lt;<span class="hl-tag">/xsd:appinfo</span>&gt;
+    	&lt;<span class="hl-tag">/xsd:annotation</span>&gt;
+    	&lt;<span class="hl-tag">xsd:complexType</span>&gt;
+	    	&lt;<span class="hl-tag">xsd:complexContent</span>&gt;
+	    		&lt;<span class="hl-tag">xsd:extension</span> <span class="hl-attribute">base</span>=<span class="hl-value">"beans:propsType"</span>&gt;
+	    			&lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"id"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:ID"</span>/&gt;
+	    		    &lt;<span class="hl-tag">xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"persistent-id"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:string"</span> <span class="hl-attribute">use</span>=<span class="hl-value">"required"</span>&gt;
+			        	&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+	        				&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">persistent</span> <span class="hl-attribute">id</span> <span class="hl-attribute">under</span> <span class="hl-attribute">which</span> <span class="hl-attribute">the</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">reside.</span>
+	        				<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+	        			<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+	        		<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+					<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"local-override"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:boolean"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"false"</span>&gt;
+						&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+							&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Specifies</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">local</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">override</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">from</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">service.</span>
+	<span class="hl-attribute">Default</span> <span class="hl-attribute">is</span> <span class="hl-attribute">"false":</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">from</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">service</span> <span class="hl-attribute">override</span> <span class="hl-attribute">local</span> <span class="hl-attribute">defaults.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">set</span> <span class="hl-attribute">to</span> <span class="hl-attribute">"true",</span> <span class="hl-attribute">local</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">will</span> <span class="hl-attribute">override</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">from</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">service.</span>
+							<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+						<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+					<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+					<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"dynamic"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:boolean"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"false"</span>&gt;
+						&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+							&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Specifies</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">changes</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">service</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">reflected</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">properties.</span>
+	<span class="hl-attribute">Default</span> <span class="hl-attribute">is</span> <span class="hl-attribute">"false":</span> <span class="hl-attribute">once</span> <span class="hl-attribute">resolved</span> <span class="hl-attribute">from</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">will</span> <span class="hl-attribute">not</span> <span class="hl-attribute">change.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">set</span> <span class="hl-attribute">to</span> <span class="hl-attribute">"true",</span> <span class="hl-attribute">the</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">object</span> <span class="hl-attribute">content</span> <span class="hl-attribute">will</span> <span class="hl-attribute">update</span> <span class="hl-attribute">accordingly</span> <span class="hl-attribute">(after</span> <span class="hl-attribute">initialization)</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">changes</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin.</span>
+							<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+						<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+					<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+					<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"init-lazy"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:boolean"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"true"</span>&gt;
+						&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+							&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Specifies</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">the</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">reflecting</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">service</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">initialized</span> <span class="hl-attribute">lazy</span> <span class="hl-attribute">or</span> <span class="hl-attribute">not.</span>
+	<span class="hl-attribute">Default</span> <span class="hl-attribute">is</span> <span class="hl-attribute">"true":</span> <span class="hl-attribute">meaning</span> <span class="hl-attribute">the</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">initialized</span> <span class="hl-attribute">just</span> <span class="hl-attribute">before</span> <span class="hl-attribute">being</span> <span class="hl-attribute">requested</span> <span class="hl-attribute">(from</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory)</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">first</span> <span class="hl-attribute">time.</span> <span class="hl-attribute">This</span> <span class="hl-attribute">is</span>
+	<span class="hl-attribute">the</span> <span class="hl-attribute">common</span> <span class="hl-attribute">case</span> <span class="hl-attribute">as</span> <span class="hl-attribute">it</span> <span class="hl-attribute">allows</span> <span class="hl-attribute">the</span> <span class="hl-attribute">most</span> <span class="hl-attribute">recent</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">set</span> <span class="hl-attribute">to</span> <span class="hl-attribute">"false",</span> <span class="hl-attribute">the</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">object</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">initialized</span> <span class="hl-attribute">at</span> <span class="hl-attribute">startup,</span> <span class="hl-attribute">along</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory.</span>
+							<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+						<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+					<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+					<span class="hl-attribute">&lt;xsd:attribute</span> <span class="hl-attribute">name</span>=<span class="hl-value">"init-timeout"</span> <span class="hl-attribute">type</span>=<span class="hl-value">"xsd:nonNegativeInteger"</span> <span class="hl-attribute">default</span>=<span class="hl-value">"0"</span>&gt;
+						&lt;<span class="hl-tag">xsd:annotation</span>&gt;
+							&lt;<span class="hl-tag">xsd:documentation</span>&gt;&lt;<span class="hl-tag">![CDATA[</span>
+	<span class="hl-attribute">Specifies</span> <span class="hl-attribute">the</span> <span class="hl-attribute">amount</span> <span class="hl-attribute">of</span> <span class="hl-attribute">time</span> <span class="hl-attribute">(in</span> <span class="hl-attribute">milliseconds)</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">will</span> <span class="hl-attribute">wait</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">Configuration</span> <span class="hl-attribute">Admin</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">to</span>
+	<span class="hl-attribute">be</span> <span class="hl-attribute">initialized</span> <span class="hl-attribute">(return</span> <span class="hl-attribute">a</span> <span class="hl-attribute">non-null</span> <span class="hl-attribute">value).</span> <span class="hl-attribute">If</span> <span class="hl-attribute">the</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">is</span> <span class="hl-attribute">not</span> <span class="hl-attribute">null</span> <span class="hl-attribute">at</span> <span class="hl-attribute">startup,</span> <span class="hl-attribute">no</span> <span class="hl-attribute">waiting</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">performed.</span>
+	<span class="hl-attribute">Similar</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">other</span> <span class="hl-attribute">timeout</span> <span class="hl-attribute">options,</span> <span class="hl-attribute">a</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">'0'</span> <span class="hl-attribute">means</span> <span class="hl-attribute">no</span> <span class="hl-attribute">waiting.</span> <span class="hl-attribute">By</span> <span class="hl-attribute">default,</span> <span class="hl-attribute">no</span> <span class="hl-attribute">waiting</span> <span class="hl-attribute">(0)</span> <span class="hl-attribute">is</span> <span class="hl-attribute">performed.</span>
+							<span class="hl-attribute">]]&gt;&lt;/xsd:documentation&gt;</span>
+						<span class="hl-attribute">&lt;/xsd:annotation&gt;</span>
+					<span class="hl-attribute">&lt;/xsd:attribute&gt;</span>
+	    		<span class="hl-attribute">&lt;/xsd:extension&gt;</span>
+	    	<span class="hl-attribute">&lt;/xsd:complexContent&gt;</span>
+    	<span class="hl-attribute">&lt;/xsd:complexType&gt;</span>
+    <span class="hl-attribute">&lt;/xsd:element&gt;</span>
+<span class="hl-attribute">&lt;/xsd:schema&gt;</span>
+    </pre></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="appendix-osgi-repo.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="appendix-ack.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Appendix&nbsp;E.&nbsp;Gemini Blueprint OSGi Repository&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.SpringSource.com/" title="SpringSource - Spring from the Source">Sponsored by SpringSource
+                                        </a></span></td><td width="40%" align="right" valign="top">&nbsp;Appendix&nbsp;G.&nbsp;Acknowledgments</td></tr></table></div></body></html>

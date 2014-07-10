@@ -1,0 +1,118 @@
+ECLIPSE GEMINI BLUEPRINT CHANGELOG
+==================================
+http://www.eclipse.org/gemini/blueprint
+
+Changes in version 2.0.0.M02 (2013-03-20)
+-----------------------------------------
+
+General:
+* Bug 403628 - Support optional synchronous application context shutdown
+* Bug 384166 - Extend resource retrieval to both backing bundle and bridge classloader 
+
+Changes in version 2.0.0.M01 (2013-02-12)
+-----------------------------------------
+
+The fix to bug 356683 is mildly backwards incompatible and so the version of Gemini Blueprint is bumped to 2.0.
+
+General:
+* Bug 356683 - Construct application contexts defined in extender fragments only once and share across extender instances
+* Bug 393960 - Build using Java 6 instead of Java 5
+* Bug 351755 - Gemini-core should export org.osgi.service.blueprint package
+* Bug 373661 - SwappingServiceReferenceProxy is not thread safe
+* Bug 394116 - Lazy activation by loading of class not contained in bundle depends on Equinox behavior
+* Bug 392396 - Inverted class check logic in org.eclipse.gemini.blueprint.extender.internal.activator.ListListenerAdapter
+* Bug 374717 - OsgiServiceFactoryBean throws NullPointerException in destroy() when no OsgiServiceRegistrationListeners are configured
+* Bug 374712 - DynamicCollection toArray(T[] a) throws ClassCastException
+* Bug 392500 - TypeFactory.getReifiedType(Type) throws StackOverflowError when fed recursive types
+* Bug 395058 - Test with Knopflerfish 3.5
+
+Documentation:
+* Bug 355584 - Minor errors in reference documentation (up to and including Chapter 4)
+* Bug 356681 - XML namespace declarations not as documented in 1.0.0.RELEASE
+
+Changes in version 1.0.2.RELEASE (2012-08-31)
+---------------------------------------------
+
+General:
+* Bug 384748 - ConcurrentModificationException in DependencyServiceManager
+* Bug 388496 - ShutdownSorter produces IllegalStateException
+
+Changes in version 1.0.1.RELEASE (2012-08-23)
+---------------------------------------------
+
+General:
+* Bug 385307 - Substitutable exports
+* Bug 381871 - Testcase pom error
+
+Changes in version 1.0.1.M01 (2012-05-29)
+-----------------------------------------
+
+General
+* Bug 375225: Support Spring 3.1.x.
+* Bug 379384: Make optional imports of essential packages mandatory in extender
+
+
+Changes in version 1.0.0 RELEASE (2011-08-22)
+---------------------------------------------
+
+General
+* upgraded to Spring Framework 3.0.6
+* Improved Javadoc documentation
+
+Package org.eclipse.gemini.blueprint.extender
+* fixed bug that prevented namespaces of bundles already resolved to be considered
+
+Package org.eclipse.gemini.blueprint.service
+* reintroduced Spring DM specific properties on imported services
+
+
+Changes in version 1.0.0 RC1 (2011-06-20)
+-----------------------------------------
+
+General
+* upgraded to Spring Framework 3.0.4
+* upgraded to Equinox 3.6.2
+* upgraded to Felix 2.0.5
+* upgraded to Knopflerfish 3.1.0
+* migrated Spring DM documentation to Eclipse Gemini Blueprint
+* introduced Gemini Blueprint schemas (gemini-blueprint.xsd and gemini-blueprint-compendium.xsd)
+
+Package org.eclipse.gemini.blueprint.context
+* reintroduced Spring DM specific properties on exported services
+* fixed bug occuring in context service publication when a Java security manager is enabled
+
+Package org.eclipse.gemini.blueprint.extender
+* introduced system property for filtering the state of namespace bundles scanned by the extender
+* reverted the filtering of namespace bundles to RESOLVED (instead of STARTED - which can still be selected)
+* fixed bug preventing custom timeouts to be configured on the extender
+
+Package org.eclipse.gemini.blueprint.service
+* reintroduced Spring DM specific properties on exported services
+
+
+Changes in version 1.0.0 M1 (2010-06-30)
+----------------------------------------
+
+General
+* renamed packages to reflect the move to Eclipse Gemini (org.springframework.osgi -> org.eclipse.gemini.blueprint)
+* namespace definitions are still called spring-osgi.xsd/spring-osgi-compendium.xsd in this release
+* upgraded to Felix 2.0.2
+* upgraded to Knopflerfish 3.0.0.beta3
+* upgraded to CGLib 2.2.0
+* removed 'update-strategy' attribute (spring-osgi-compendium.xsd)
+* improved timeout schema types to improve declaration validation
+* introduced two extra attributes to 'cm-properties' element (spring-osgi-compendium.xsd)
+* introduced service-properties to 'managed-service-factory' element (spring-osgi-compendium.xsd)
+
+Package org.eclipse.gemini.blueprint.compendium
+* improved configuration admin update handling by supporting both container and bean management on the same declaration
+* introduced initialization timeout option to cm-properties
+* introduced lazy initialization option to cm-properties
+* introduced service properties option to managed-service-factory
+
+Package org.eclipse.gemini.blueprint.io
+* improved pattern matching against jar entries in the bundle classpath
+* fixed pattern matching against packages imported from bundles with custom classpaths
+
+Package org.eclipse.gemini.blueprint.test
+* added check for unresolved fragments during test startup
