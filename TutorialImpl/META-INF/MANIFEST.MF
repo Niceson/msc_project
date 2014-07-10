@@ -8,6 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.service,
  org.osgi.framework;version="1.3.0",
  org.aspectj.lang;version="1.7.1.RELEASE",
+ org.aspectj.lang.reflect;version="1.7.1.RELEASE",
  org.aspectj.weaver.reflect;version="1.7.1.RELEASE",
  org.aspectj.weaver.patterns;version="1.7.1.RELEASE",
  org.springframework.aop;version="3.2.3.RELEASE",

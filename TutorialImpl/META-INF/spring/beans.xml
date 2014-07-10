@@ -18,14 +18,14 @@
 	<aop:config>
 		<aop:aspect id="log" ref="logAspect">
 
-			<!-- public * * -->
-
 			<aop:pointcut expression="execution(* tutorialimpl.ServiceImpl.*(..))"
 				id="selectAll" />
 			<aop:before pointcut-ref="selectAll" method="dobefore" />
 			<aop:after pointcut-ref="selectAll" method="doafter" />
 			<aop:around pointcut-ref="selectAll" method="doAround" />
-
+			<aop:after-returning pointcut-ref="selectAll" 
+                              returning="retVal"
+                              method="afterReturning"/>
 		</aop:aspect>
 	</aop:config>
 </beans>

@@ -19,6 +19,8 @@ private TutorialService service;
         if (service != null) {
             System.out.println("Calling sayHello()");
             service.sayHello("Nice");  // Invoke the OSGi service!
+            System.out.println("getting total");
+            service.sum(10);
         }
     }
 

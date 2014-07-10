@@ -28,6 +28,7 @@ public class Myaspect {
 		// System.out.println("" + jp.toString().getClass().getName());
 		System.out.println("The method signature is " + jp.getSignature());
 		System.out.println("The proxy Object is " + jp.getThis().getClass());
+		System.out.println("location" + jp.getSourceLocation().toString());
 		System.out.println("The target class is "
 				+ jp.getTarget().getClass().getName());
 		System.out.println("*************************** end of Before Method ***************"
@@ -60,5 +61,12 @@ public class Myaspect {
 		.println("***************************End of Around Method***************"
 				+ "\n");
 		return result;
+	}
+	public void afterReturning(JoinPoint jp, Object retVal)
+	{
+		if (retVal != null)
+		System.out.println("Returned " + retVal.toString());
+		else System.out.println("Returned null");
+	
 	}
 }
