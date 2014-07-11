@@ -1,7 +1,9 @@
 package tutorial.aspect;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,16 +22,17 @@ import org.aspectj.weaver.patterns.ThisOrTargetPointcut;
  */
 public class Myaspect {
 	private Long startTime, endTme;
-	private String log;
+	private String Finallog;
+	private String Methodlog;
 	/**
 	 * Performed before method call execution
 	 */
 	public void dobefore(JoinPoint jp) {
-		log="***************** Bundle History*********************" +"\n";
+		Methodlog="***************** Bundle History*********************" +"\n";
 		System.out
 		.println("***************************Start of Before Method***************");
 		startTime = System.currentTimeMillis();
-		
+
 		System.out.println("The method started at " + startTime);
 		String time = "The method started at: " + startTime;
 		// System.out.println("" + jp.toString().getClass().getName());
@@ -44,15 +47,14 @@ public class Myaspect {
 		System.out.println("*************************** end of Before Method ***************"
 				+ "\n");
 
-		log = log + String.format(("%4s %8s %10s %n") ,signature + "\n",time + "\n",targetClass + "\n");
-		
+		Methodlog = Methodlog + String.format(("%4s %8s %10s %n") ,signature + "\n",time + "\n",targetClass + "\n");
 	}
 
 	/**
 	 * Performed after method call execution
 	 */
 	public void doafter() {
-		FileWriter writelog = null;
+		//FileWriter writelog = null;
 		System.out
 		.println("***************************Start of After Method***************");
 		endTme = System.currentTimeMillis();
@@ -62,23 +64,11 @@ public class Myaspect {
 				+ " Milliseconds");
 		String duration = "The method lasted: " + (endTme - startTime)
 				+ " Milliseconds";
-		
-		log += String.format(("%4s %4s %n"),ended + "\n",duration + "\n");
-		System.err.println(log);
-		try{
-			try{
-		writelog = new FileWriter("log.txt"); 
-		writelog.write(log);
-			}
-			finally 
-			{
-				writelog.close();	
-			}
-		}
-		catch (IOException p)
-		{
-			System.out.print("Not found!");
-		}
+
+		Methodlog += String.format(("%4s %4s %n"),ended + "\n",duration + "\n");
+		Finallog += Methodlog;
+		System.err.println(Finallog);
+		writetofile();
 		System.out
 		.println("***************************End of After Method***************"
 				+ "\n");
@@ -96,10 +86,9 @@ public class Myaspect {
 				System.out.print("Arg"+(i+1)+":"+args[i] + "\n");
 				parameters = "Arguments passed are:"+ args[i];
 			}
-			log += parameters+ "\n";
-			
+			Methodlog += parameters+ "\n";
 		}
-		
+
 		Object result = pjp.proceed();
 		System.out.println("***************************End of Around Method***************"+ "\n");
 		return result;
@@ -108,11 +97,31 @@ public class Myaspect {
 
 	public void afterReturning(JoinPoint jp, Object retVal)
 	{String returned = "";
-		if (retVal != null){
-			System.out.println("Returned " + retVal.toString());
-			returned = "Returned: " + retVal.toString();
-		}
-		else returned = "Returned: Null";
-		log+= returned + "\n";
+	if (retVal != null){
+		System.out.println("Returned " + retVal.toString());
+		returned = "Returned: " + retVal.toString();
 	}
+	else returned = "Returned: Null";
+	Methodlog+= returned + "\n";
+	}
+
+
+public void writetofile()
+{
+	try{
+	//	PrintWriter writer = new PrintWriter("C:\\BluPrintProject\\TutorialImpl\\log.txt", "UTF-8");
+
+		PrintWriter writer = new PrintWriter("C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt", "UTF-8");
+		writer.println(Finallog);
+		writer.close();
+
+//		BufferedWriter writelog = new BufferedWriter(new FileWriter("C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt"));
+//		//writelog = new FileWriter("log.txt"); 
+//		writelog.write(Finallog);
+	}
+	catch (IOException p)
+	{
+		System.out.print("Not found!");
+	}
+}
 }

@@ -1,0 +1,21 @@
+null***************** Bundle History*********************
+ The method signature is: void com.service.TutorialService.sayHello(String)
+ The method started at: 1405093183623
+ The target class is: tutorialimpl.ServiceImpl
+ 
+Arguments passed are:Nice
+Returned: Null
+Method ended at: 1405093183627
+ The method lasted: 4 Milliseconds
+ 
+***************** Bundle History*********************
+ The method signature is: int com.service.TutorialService.sum(int)
+ The method started at: 1405093183627
+ The target class is: tutorialimpl.ServiceImpl
+ 
+Arguments passed are:10
+Returned: 20
+Method ended at: 1405093183627
+ The method lasted: 0 Milliseconds
+ 
+
