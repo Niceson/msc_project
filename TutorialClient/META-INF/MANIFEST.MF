@@ -4,4 +4,21 @@ Bundle-Name: TutorialClient
 Bundle-SymbolicName: TutorialClient
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: com.service
+Import-Package: com.service,
+ org.aspectj.lang.annotation;version="1.7.1.RELEASE",
+ org.aspectj.weaver;version="1.7.1.RELEASE",
+ org.osgi.framework;version="1.3.0",
+ org.aspectj.lang;version="1.7.1.RELEASE",
+ org.aspectj.lang.reflect;version="1.7.1.RELEASE",
+ org.aspectj.weaver.reflect;version="1.7.1.RELEASE",
+ org.aspectj.weaver.patterns;version="1.7.1.RELEASE",
+ org.springframework.aop;version="3.2.3.RELEASE",
+ org.springframework.aop.framework;version="3.2.3.RELEASE",
+ org.aopalliance.aop;version="[1.0.0, 2.0.0)",
+ org.springframework.beans;version="3.2.3.RELEASE",
+ org.springframework.beans.factory;version="3.2.3.RELEASE",
+ org.springframework.cglib.core;version="3.2.3.RELEASE",
+ org.springframework.cglib.proxy;version="3.2.3.RELEASE",
+ org.eclipse.gemini.blueprint.service.exporter;version="2.0.0.M02",
+ org.eclipse.gemini.blueprint.service.exporter.support;version="2.0.0.M02"
+Bundle-ActivationPolicy: lazy

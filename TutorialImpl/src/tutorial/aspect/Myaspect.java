@@ -15,6 +15,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.weaver.patterns.ThisOrTargetPointcut;
+import org.springframework.aop.framework.AopContext;
 
 /**
  * My Aspect class
@@ -25,7 +26,7 @@ import org.aspectj.weaver.patterns.ThisOrTargetPointcut;
 public class Myaspect {
 	private Long startTime, endTme;
 	private String Finallog;
-	private String Methodlog;
+	private String Methodlog ="***************** Bundle History*********************" +"\n";
 	/**
 	 * Performed before method call execution
 	 */
@@ -44,7 +45,6 @@ public class Myaspect {
 				while (LogsFile.hasNextLine())
 				{
 					String logRecord = LogsFile.nextLine();
-					System.out.println(" Read in " + logRecord);
 				}
 			}
 			finally
@@ -58,17 +58,22 @@ public class Myaspect {
 			System.out.println("file not found");
 		}
 
-		Methodlog="***************** Bundle History*********************" +"\n";
-
+		//generate the stack trace to get the calling class
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 		String callerClassName = null;
 		for(int i=0; i<stackTraceElements.length;i++)
 		{
-			System.out.println(i + stackTraceElements[i].getClassName());
-			if(stackTraceElements[i].getClassName().equals(jp.getThis().getClass().getName()))
+			//System.out.println("" + i + stackTraceElements[i].getClassName());
+			//if(stackTraceElements[i].getClassName().equals(jp.getThis().getClass().getName()))
+			if(stackTraceElements[i].getClassName().equals("sun.reflect.NativeMethodAccessorImpl") &&!(stackTraceElements[i-1].getClassName().equals(jp.getThis().getClass().getName())))
 			{
-				System.out.println("The proxy is " + i + stackTraceElements[i].getClassName());
-				System.out.println("on stack " + i + stackTraceElements[i+1].getClassName());
+				if(!(stackTraceElements[i-1].getClassName().equals(this.getClass().getName())) &&!(stackTraceElements[i-1].getClassName().equals("sun.reflect.NativeMethodAccessorImpl")))
+				{
+					System.out.println("The proxy is " + i + stackTraceElements[i].getClassName());
+					System.out.println("on stack " + (i-1) + stackTraceElements[i-1].getClassName());
+					String className = stackTraceElements[i-1].getClassName();
+					Methodlog += "The class Name is: "+ className + "\n";
+				}
 			}
 		}
 
@@ -77,7 +82,6 @@ public class Myaspect {
 		// System.out.println("" + jp.toString().getClass().getName());
 		String signature= " The method signature is: "+ jp.getSignature();
 		//System.out.println("The proxy Object is " + jp.getThis().getClass());
-		//System.out.println("location" + jp.getSourceLocation().toString());
 		String targetClass = "The target class is: "+ jp.getTarget().getClass().getName();
 		Methodlog = Methodlog + String.format(("%4s %8s %10s %n") ,signature + "\n",time + "\n",targetClass + "\n");
 	}
@@ -86,7 +90,6 @@ public class Myaspect {
 	 * Performed after method call execution
 	 */
 	public void doafter() {
-		//FileWriter writelog = null;
 		endTme = System.currentTimeMillis();
 		String ended = "Method ended at: " + endTme;
 		String duration = "The method lasted: " + (endTme - startTime)
@@ -98,8 +101,6 @@ public class Myaspect {
 	}
 
 	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-
-		System.out.println("calling class is " + pjp.getThis());// returns the Proxy object
 		Object[] args=pjp.getArgs();
 		if(args.length>0){
 			// captures method arguments 
@@ -130,15 +131,10 @@ public class Myaspect {
 	public void writetofile()
 	{
 		try{
-			//	PrintWriter writer = new PrintWriter("C:\\BluPrintProject\\TutorialImpl\\log.txt", "UTF-8");
 
 			PrintWriter writer = new PrintWriter("C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt", "UTF-8");
 			writer.println(Finallog);
 			writer.close();
-
-			//		BufferedWriter writelog = new BufferedWriter(new FileWriter("C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt"));
-			//		//writelog = new FileWriter("log.txt"); 
-			//		writelog.write(Finallog);
 		}
 		catch (IOException p)
 		{
