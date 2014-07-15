@@ -49,7 +49,11 @@ public class Myaspect {
 						&& !(stackTraceElements[i - 1].getClassName().equals("sun.reflect.NativeMethodAccessorImpl"))) {
 					System.out.println("The proxy is " + i
 							+ stackTraceElements[i].getClassName());
-					System.out.println("on stack " + (i - 1)+ stackTraceElements[i - 1].getClassName());
+					
+				System.out.println("on stack " + (i - 1)+ stackTraceElements[i - 1].getClassName());
+					
+				// Try to get the client Object to access the client
+				
 					String className = stackTraceElements[i - 1].getClassName();
 					Methodlog += "Name:" + className + ",";
 				}
@@ -70,14 +74,14 @@ public class Myaspect {
 	 * Performed after method call execution
 	 */
 	public void doafter() {
+
 		endTme = System.currentTimeMillis();
 		String ended = "MethodEnded " + endTme;
 		String duration = "Duration " + (endTme - startTime)
 				+ " Milliseconds";
-
 		Methodlog += ended + duration;
 		Finallog += Methodlog;
-		writetofile();// calls method to write to file the log of all methods.
+		myAnalysis.writetoFile(Finallog);// calls method to write to file the log of all methods.
 	}
 
 	/**
@@ -100,30 +104,42 @@ public class Myaspect {
 			Methodlog += parameters;// appends the method log
 		}
 		String passedMethod = pjp.getSignature().getName();
-
 		boolean deciding = myAnalysis.Analyse(passedMethod, parameters);
 		if (deciding) {
-			// meaning at least 1 policy has been violated,
+				throw new Throwable();
+				// Unacceptable level; throw exception and stop method execution
 		} 
-		else {// no violation
+		else {// no violation proceed with method execution
 			result = pjp.proceed();
 		}
-
 		return result;
 	}
-
+	/**
+	 * @param jp
+	 * @param retVal
+	 */
 	public void afterReturning(JoinPoint jp, Object retVal)
 	// capture the returned value or null is none was returned.
-	{
-		String returned = "";
-		if (retVal != null) {
-			System.out.println("Returned " + retVal.toString());
-			returned = "Returned " + retVal.toString();
-		} else
-			returned = "Returned Null";
-		Methodlog += returned;
+	{ String status = "completed Successfully";
+	String returned = "";
+	if (retVal != null) {
+		System.out.println("Returned " + retVal.toString());
+		returned = "Returned " + retVal.toString();
+	} else
+		returned = "Returned Null";
+	Methodlog += returned  + status;
+	}
+	/**
+	 * 
+	 */
+	public void afterthrow()
+	{String status = "Did not complate ";
+	Methodlog += status;
 	}
 
+	/**
+	 * 
+	 
 	public void writetofile() {
 		try {
 
@@ -136,5 +152,5 @@ public class Myaspect {
 			System.out.print("Not found!");
 		}
 	}
-
+*/
 }

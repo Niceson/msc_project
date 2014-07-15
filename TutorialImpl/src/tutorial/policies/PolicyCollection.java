@@ -26,7 +26,7 @@ public class PolicyCollection {
 		int position = 0;
 		for(int i = 0; i <myPolicies.length; i++)
 		{
-			if(myPolicies[i].getMethod().equalsIgnoreCase(method)&& myPolicies[i].getParameters().equalsIgnoreCase(params) )
+			if(myPolicies[i].getPremise().getMethod().equalsIgnoreCase(method)&& myPolicies[i].getPremise().getParameters().equalsIgnoreCase(params) )
 			{
 				matches[position]= myPolicies[i];
 				position++;

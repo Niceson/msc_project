@@ -2,10 +2,12 @@ package tutorial.policies;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class PolicyAnalysis {
 	PolicyCollection collect = new PolicyCollection();
+	private int violationTimes, highmagnitude = 5, lowmagnitude = 3, tendency;
 	public PolicyAnalysis()
 	{
 	}
@@ -13,23 +15,29 @@ public class PolicyAnalysis {
 	 * Returns applicable policies related to a particular method and checks if
 	 * any has been violated if any has, it calls the method to verify the
 	 * history log.
-	 * 
 	 * @param method
 	 */
 	public boolean Analyse(String method, String params) {
 		Policy[] matchPolicies = collect.getMyPolicies(method,params);
 		boolean violated = false;
 		for (int i = 0; i < matchPolicies.length; i++) {
-			if (matchPolicies[i].isViolated()) {//if such a method has been violated,
-				verifyLog(matchPolicies[i]);//find out how many times it has been violated from the log history
-				violated= true;
-			}
+			matchPolicies[i].getConclusion(); //if such a method has been violated,
+			
+			//returns the times which the method has been violated
+			violationTimes += setViolationTimes(matchPolicies[i]);//find out how many times it has been violated from the log history
+			
+			violated= true;
 		}
 		return violated;
 	}
-
 	/**
-	 * Verifies from the log file (log.txt) how many times
+	 * @return the times a method has been violated.
+	 */
+	public int getViolationTimes() {
+		return violationTimes;
+	}
+	/**
+	 * Verifies from the log file (log.txt) and sets how many times
 	 * a certain policy related to a method has been violated by
 	 * a given class in the past
 	 * This will help us determine the security measures to be taken
@@ -38,7 +46,7 @@ public class PolicyAnalysis {
 	 * @param method the method to which this policy is applied
 	 * @return
 	 */
-	public int verifyLog(Policy poly) {
+	public int setViolationTimes(Policy poly) {
 		int times=0;
 		FileReader readLog = null;
 		try {
@@ -57,6 +65,23 @@ public class PolicyAnalysis {
 			System.out.println("file not found");
 		}
 		return times;
+	}
+	/**
+	 * Writes the log to file after method execution whether it has successfully completed or not
+	 * @param log
+	 */
+	public void writetoFile(String log)
+	{
+		try {
+
+			PrintWriter writer = new PrintWriter(
+					"C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt",
+					"UTF-8");
+			writer.println(log);
+			writer.close();
+		} catch (IOException p) {
+			System.out.print("Not found!");
+		}
 	}
 
 }

@@ -26,6 +26,7 @@
 			<aop:around pointcut-ref="selectAll" method="doAround" />
 			<aop:after-returning pointcut-ref="selectAll"
 				returning="retVal" method="afterReturning" />
+				<aop:after-throwing pointcut-ref="selectAll" method="afterthrow"/>
 		</aop:aspect>
 	</aop:config>
 </beans>
