@@ -19,14 +19,29 @@ public class PolicyAnalysis {
 	 */
 	public boolean Analyse(String method, String params) {
 		Policy[] matchPolicies = collect.getMyPolicies(method,params);
+		int policiesViolated = 0;
 		boolean violated = false;
 		for (int i = 0; i < matchPolicies.length; i++) {
-			matchPolicies[i].getConclusion(); //if such a method has been violated,
-			
-			//returns the times which the method has been violated
-			violationTimes += setViolationTimes(matchPolicies[i]);//find out how many times it has been violated from the log history
-			
-			violated= true;
+			// calls helper method to check if a policy has been violated and how many times it has been violated
+
+			if(verifyViolation(matchPolicies[i])&& violationTimes>10);
+			{//could be updated to say; if it has been violated many times or is not the only policy violated.
+				//It is unacceptable, tell aspect to terminate this method execution and append the status to file
+				System.out.println("Policy " + matchPolicies[i].getName() + " has been violated many times " + violationTimes);
+				policiesViolated++;
+				violated= true;
+			}// could be added that if one policy has been violated many times but no other policy has been violated.
+			else if (verifyViolation(matchPolicies[i]) && violationTimes<10  )
+			{
+				//The policy has been violated but not many times
+				System.out.println("Policy " + matchPolicies[i].getName() + "has been violated " + violationTimes + "times");
+				policiesViolated++;
+				violated = false;
+			}
+			else{// The policy has not been violated
+				System.out.println("Policy " + matchPolicies[i].getName() + "has not been violated ");
+				violated = false;
+			}
 		}
 		return violated;
 	}
@@ -46,8 +61,9 @@ public class PolicyAnalysis {
 	 * @param method the method to which this policy is applied
 	 * @return
 	 */
-	public int setViolationTimes(Policy poly) {
-		int times=0;
+	public boolean verifyViolation(Policy poly) {
+		int times=0;//will keep how many times a particular policy has been violated
+		boolean violated = false;
 		FileReader readLog = null;
 		try {
 			try {
@@ -55,7 +71,10 @@ public class PolicyAnalysis {
 				Scanner LogsFile = new Scanner(readLog);
 				while (LogsFile.hasNextLine()) {
 					String logRecord = LogsFile.nextLine();
+					//Check if policy has been violated and if yes increment times.
 				}
+				violationTimes+= times;
+				//After the while loop, add the times a particular method has been violated to the overall violation times of policies by a method.
 			} finally {
 				// closes the opened files
 				if (readLog != null)
@@ -64,12 +83,56 @@ public class PolicyAnalysis {
 		} catch (IOException e) {
 			System.out.println("file not found");
 		}
-		return times;
+		return violated;
 	}
 	/**
 	 * Writes the log to file after method execution whether it has successfully completed or not
 	 * @param log
 	 */
+
+
+	public void readPolicy()
+	{
+		FileReader readPolicy = null;
+		try {
+			try {
+				readPolicy = new FileReader("policies.txt");
+				Scanner PolicyFile = new Scanner(readPolicy);
+				while (PolicyFile.hasNextLine()) {
+					String logRecord = PolicyFile.nextLine();
+					//Check if policy has been violated and if yes increment times.
+					String [] policy = logRecord.split("[ ]+");
+					   Policy pol = new Policy();
+					   Premises prem = new Premises();
+					   Conclusions conc = new Conclusions();
+		                  for(int i = 0; i < policy.length;i++)
+		                  {
+		                	  pol.setName(policy[0]);
+		                	  prem.setKnowledge(Boolean.parseBoolean(policy[1]));
+		                	  prem.setMethod(policy[2]);
+		                	  prem.setParameters(policy[3]);
+		                	  prem.setRate(Boolean.parseBoolean(policy[4]));
+		                	  pol.setPremise(prem);
+		                	  
+		                	  conc.setMeasure(policy[5]);
+		                	  conc.setKnow(Boolean.parseBoolean(policy[6]));
+		                	  conc.setStatus(policy[7]);
+		                	  pol.setConclusion(conc);
+		                  }
+				}
+			} finally {
+				// closes the opened files
+				if (readPolicy != null)
+					readPolicy.close();
+			}
+		} catch (IOException e) {
+			System.out.println("file not found");
+		}
+
+	}
+
+
+
 	public void writetoFile(String log)
 	{
 		try {

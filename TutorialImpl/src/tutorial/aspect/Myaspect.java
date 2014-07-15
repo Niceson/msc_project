@@ -105,9 +105,10 @@ public class Myaspect {
 		}
 		String passedMethod = pjp.getSignature().getName();
 		boolean deciding = myAnalysis.Analyse(passedMethod, parameters);
-		if (deciding) {
+		
+		if (deciding) {// Unacceptable level; throw exception to stop method execution
 				throw new Throwable();
-				// Unacceptable level; throw exception and stop method execution
+				
 		} 
 		else {// no violation proceed with method execution
 			result = pjp.proceed();
@@ -137,20 +138,5 @@ public class Myaspect {
 	Methodlog += status;
 	}
 
-	/**
-	 * 
-	 
-	public void writetofile() {
-		try {
 
-			PrintWriter writer = new PrintWriter(
-					"C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt",
-					"UTF-8");
-			writer.println(Finallog);
-			writer.close();
-		} catch (IOException p) {
-			System.out.print("Not found!");
-		}
-	}
-*/
 }
