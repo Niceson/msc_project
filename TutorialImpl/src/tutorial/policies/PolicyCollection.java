@@ -3,7 +3,7 @@ package tutorial.policies;
 public class PolicyCollection {
 	private Policy[] myPolicies,matches;
 	int start = 0;
-	
+
 	public PolicyCollection()
 	{
 		myPolicies = new Policy[7];
@@ -26,11 +26,14 @@ public class PolicyCollection {
 		int position = 0;
 		for(int i = 0; i <myPolicies.length; i++)
 		{
-			if(myPolicies[i].getPremise().getMethod().equalsIgnoreCase(method)&& myPolicies[i].getPremise().getParameters().equalsIgnoreCase(params) )
-			{
-				matches[position]= myPolicies[i];
-				position++;
+			if(myPolicies[i]!= null){
+				if(myPolicies[i].getPremise().getMethod().equalsIgnoreCase(method)&& myPolicies[i].getPremise().getParameters().equalsIgnoreCase(params))
+				{
+					matches[position]= myPolicies[i];
+					position++;
+				}
 			}
+			System.out.println("null policy");
 		}
 		return matches;
 	}

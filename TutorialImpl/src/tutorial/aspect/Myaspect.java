@@ -56,6 +56,7 @@ public class Myaspect {
 				
 					String className = stackTraceElements[i - 1].getClassName();
 					Methodlog += "Name:" + className + ",";
+					
 				}
 			}
 		}
@@ -104,6 +105,7 @@ public class Myaspect {
 			Methodlog += parameters;// appends the method log
 		}
 		String passedMethod = pjp.getSignature().getName();
+		myAnalysis.readPolicy();// read in the policies before the method executes.
 		boolean deciding = myAnalysis.Analyse(passedMethod, parameters);
 		
 		if (deciding) {// Unacceptable level; throw exception to stop method execution
