@@ -2,26 +2,36 @@ package tutorial.policies;
 
 public class Premise {
 	//private  final String knowledge = "";
-	
-	private String bundle1, bundle2, variable;
+	private String method;
+	private String parameter;
+	private String bundle1;
 	private Knowledge operator;
+	private boolean istrue = false;
+	
+	public boolean isIstrue() {
+		return istrue;
+	}
+	public void setIstrue(boolean istrue) {
+		this.istrue = istrue;
+	}
 	public String getBundle1() {
 		return bundle1;
 	}
 	public void setBundle1(String bundle1) {
 		bundle1 = bundle1;
 	}
-	public String getBundle2() {
-		return bundle2;
+	
+	public String getMethod() {
+		return method;
 	}
-	public void setBundle2(String bundle2) {
-		bundle2 = bundle2;
+	public void setMethod(String method) {
+		this.method = method;
 	}
-	public String getVariable() {
-		return variable;
+	public String getParameter() {
+		return parameter;
 	}
-	public void setVariable(String variable) {
-		variable = variable;
+	public void setParameters(String parameters) {
+		this.parameter = parameters;
 	}
 	public Knowledge getOperator() {
 		return operator;
@@ -29,6 +39,5 @@ public class Premise {
 	public void setOperator(Knowledge operator) {
 		this.operator = operator;
 	}
-	
-	
+
 }

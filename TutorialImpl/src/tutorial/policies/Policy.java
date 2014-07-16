@@ -4,28 +4,9 @@ import java.util.ArrayList;
 
 public class Policy {
 	private String name;
-	private String method;
-	private String parameters;
-	
 	ArrayList<Premise> premise;
 	ArrayList<Conclusion> conc;
 	
-	public String getMethod() {
-		return method;
-	}
-
-	public void setMethod(String method) {
-		this.method = method;
-	}
-
-	public String getParameters() {
-		return parameters;
-	}
-
-	public void setParameters(String parameters) {
-		this.parameters = parameters;
-	}
-
 	public Policy()
 	{
 		premise = new ArrayList<Premise>();

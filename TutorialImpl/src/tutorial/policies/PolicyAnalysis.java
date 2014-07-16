@@ -17,54 +17,58 @@ public class PolicyAnalysis {
 		collect = new PolicyCollection();
 		Policy pol = new Policy();
 		Conclusion c = new Conclusion();
-		c.setBundle1("A");
-		c.setBundle2("B");
+		Premise p = new Premise();
+		
+		p.setBundle1("Client");
+		p.setOperator(Knowledge.KNOWS);
+		p.setMethod("sayHello");
+		p.setParameters("Nice");
+		
+		c.setBundle1("Client");
 		c.setOperator(Knowledge.KNOWS);
 		c.setState(Status.ALWAYS);
-		c.setVariable("weight");
+		c.setMethod("sayHello");
+		c.setParameter("Nice");
 		pol.addConc(c);
-		Premise p = new Premise();
-		p.setBundle1("A");
-		p.setBundle2("B");
-		p.setOperator(Knowledge.KNOWS);
-		p.setVariable("height");
+		
+		pol.setName("Policy1");
 		pol.addPremise(p);
-		pol.setName("1. Policy");
-		pol.setParameters("Nice");
-		pol.setMethod("sayHello");
 		collect.addPolicies(pol);
 		
 		Policy pol2 = new Policy();
 		Conclusion c2 = new Conclusion();
-		c2.setBundle1("C");
-		c2.setBundle2("D");
+		Premise p2 = new Premise();
+		
+		p2.setBundle1("Client");
+		p2.setOperator(Knowledge.KNOWS);
+		p2.setMethod("sum");
+		p2.setParameters("2");
+		
+		c2.setBundle1("Client");
 		c2.setOperator(Knowledge.NOT_KNOWS);
 		c2.setState(Status.ALWAYS);
-		c2.setVariable("name");
-		pol2.addConc(c2);
-		Premise p2 = new Premise();
-		p2.setBundle1("C");
-		p2.setBundle2("D");
-		p2.setOperator(Knowledge.KNOWS);
-		p2.setVariable("age");
-		pol2.setName("2. Policy");
-		pol2.setParameters("params2");
-		pol2.setMethod("method2");
+		c2.setMethod("sayHello");
+		c2.setParameter("Nice");
+		
+		
+		pol2.setName("Policy2");
 		pol2.addPremise(p2);
+		pol2.addConc(c2);
+		
 		collect.addPolicies(pol2);
 		
-//		writetoFile();
+		policytoFile();
 	}
+		
 	/**
 	 * Returns applicable policies related to a particular method and checks if
-	 * any has been violated if any has, it calls the method to verify the
+	 * any has been violated if any has, a policies a method has been violated then, it calls the method to verify the
 	 * history log.
 	 * @param method
 	 */
-	public boolean Analyse(String method, String params) {
-		ArrayList<Policy> matchPolicies = collect.getMyPolicies(method,params);
+	public int Analyse(String method, String params, String classname) {
+		ArrayList<Policy> matchPolicies = collect.getMyPolicies(method,params, classname);
 		int policiesViolated = 0;
-		boolean violated = false;
 		for (int i = 0; i < matchPolicies.size(); i++) {
 			// calls helper method to check if a policy has been violated and how many times it has been violated
 			if(matchPolicies.get(i)!=null){
@@ -75,7 +79,7 @@ public class PolicyAnalysis {
 					System.out.println("Policy " + matchPolicies.get(i).getName() + " has been violated many times " + violationTimes);
 					policiesViolated++;
 					tendency += highmagnitude;// the component adverserial tendency is increased by a higher magnitude.
-					violated= true;
+					
 				}// could be added that if one policy has been violated many times but no other policy has been violated.
 				
 				else if(verifyViolation(matchPolicies.get(i)) && violationTimes<10 )
@@ -84,19 +88,19 @@ public class PolicyAnalysis {
 					System.out.println("Policy " + matchPolicies.get(i).getName() + "has been violated " + violationTimes + "times");
 					policiesViolated++;
 					tendency += lowmagnitude;
-					violated = false;
+					
 				}
 				else{
 					//The policy has not been violated
 					System.out.println("Policy " + matchPolicies.get(i).getName() + "has not been violated ");
-					violated = false;
+					
 				}
 			} else{
 				System.out.println("No matching policies found");
 			}
 		}
 		System.out.println("this component's adversarial tendency is " + tendency);
-		return violated;
+		return policiesViolated;
 	}
 	/**
 	 * Verifies from the log file (log.txt) and sets how many times
@@ -148,7 +152,7 @@ public class PolicyAnalysis {
 			while (PolicyFile.hasNextLine()) {
 				input += PolicyFile.nextLine();
 			}  
-			collect.readJSONString(input);
+			this.readJSONString(input);//call a helper method to read the JSON string.
 		} catch (IOException e) {
 			System.out.println("policy file not found");
 		} finally {
@@ -180,7 +184,7 @@ public class PolicyAnalysis {
 		}
 	}
 	
-	public void writetoFile()
+	public void policytoFile()
 	{
 		try {
 
@@ -194,4 +198,30 @@ public class PolicyAnalysis {
 		}
 	}
 
+	
+	
+	public void readJSONString(String input){
+		collect = new PolicyCollection();
+		Policy pol = new Policy();
+		Conclusion c = new Conclusion();
+		
+		String [] singleClass = input.split("[ ,{}:.]+");
+		if (singleClass.length < 4 )
+		{
+			System.out.print("Missing data");
+		}
+		else 
+		{
+			
+		}	
+		
+		for(int i=0; i<input.length(); i ++)
+		{
+			
+		}
+	
+	//	collect.addPolicies(pol2);
+		
+		
+	}
 }

@@ -14,25 +14,43 @@ public class PolicyCollection {
 	{
 		myPolicies.add(pol);
 	}
-	/**
-	 * Returns an array of policies that match a given method
-	 * @param method
-	 * @param params
-	 * @return
-	 */
-	public ArrayList<Policy> getMyPolicies(String method, String params) {
+/**
+ * Returns an array of policies that match a given method either specified in the premise or in the conclusion
+ * @param method
+ * @param params
+ * @param classname
+ * @return
+ */
+	public ArrayList<Policy> getMyPolicies(String method, String params, String classname) {
 		ArrayList<Policy> matches = new ArrayList<Policy>();
+		
 		for(int i = 0; i <myPolicies.size(); i++)
 		{
+			boolean found = false;
 			if(myPolicies.get(i)!= null){
-				if(myPolicies.get(i).getMethod().equalsIgnoreCase(method)&&myPolicies.get(i).getParameters().equalsIgnoreCase(params))
+				ArrayList<Premise> prem = myPolicies.get(i).getPremise();	
+				for (int p = 0; p<prem.size();p++)
 				{
-					
-//					System.out.println("found policy " + myPolicies[i.getMethod());
-//					System.out.println("method passes is " + method);
-					matches.add(myPolicies.get(i));
-				} else {
-					System.out.println("No match");
+					if(prem.get(p).getMethod().equalsIgnoreCase(method) && prem.get(p).getParameter().equalsIgnoreCase(params)
+							&& prem.get(p).getBundle1().equalsIgnoreCase(classname)&& !found)
+					{
+						matches.add(myPolicies.get(i));
+						found=true;	
+					}
+				}
+				if(!found)
+				{
+					ArrayList<Conclusion> conc =  myPolicies.get(i).getConc();
+							for (int c = 0; c<conc.size();c++)
+							{
+								if(conc.get(c).getMethod().equalsIgnoreCase(method) && conc.get(c).getParameter().equalsIgnoreCase(params)
+										&& conc.get(c).getBundle1().equalsIgnoreCase(classname)&& !found)
+						
+								{
+									matches.add(myPolicies.get(i));
+									found=true;	
+								}
+							}
 				}
 			} else {
 				System.out.println("null policy");
@@ -40,14 +58,14 @@ public class PolicyCollection {
 		}
 		return matches;
 	}
-
+ 
 	public void printpols()
 	{
 		for(int i = 0; i<myPolicies.size();i++)
 		{
-			if(myPolicies.get(i)!= null)
-			System.out.println(myPolicies.get(i).getMethod());
-			else System.out.println("Its null too");
+		//	if(myPolicies.get(i)!= null)
+		//	System.out.println(myPolicies.get(i).getMethod());
+		//	else System.out.println("Its null too");
 		}
 	}
 	
@@ -86,15 +104,14 @@ public class PolicyCollection {
 				Policy p = myPolicies.get(i);
 				jsonPolicyCollection += "{ ";
 				jsonPolicyCollection += "\"name\": \"" + p.getName() + "\", ";
-				jsonPolicyCollection += "\"method\": \"" + p.getMethod() + "\", ";
-				jsonPolicyCollection += "\"parameter\": \"" + p.getParameters() + "\", ";
+				//jsonPolicyCollection += "\"parameter\": \"" + p.getParameters() + "\", ";
 				jsonPolicyCollection += "\"premise\": [ ";
 				for (int j = 0; j < p.getPremise().size(); j++) {
 					Premise pre = p.getPremise().get(j);
 					jsonPolicyCollection += "{ ";
 					jsonPolicyCollection += "\"Bundle1\": \"" + pre.getBundle1() + "\", ";
-					jsonPolicyCollection += "\"Bundle2\": \"" + pre.getBundle2() + "\", ";
-					jsonPolicyCollection += "\"Variable\": \"" + pre.getVariable() + "\", ";
+					jsonPolicyCollection += "\"Method\": \"" + pre.getMethod() + "\", ";
+					jsonPolicyCollection += "\"Parameter\": \"" + pre.getParameter() + "\", ";
 					jsonPolicyCollection += "\"operator\": " + pre.getOperator().ordinal();
 					if (j == p.getPremise().size() - 1) {
 						jsonPolicyCollection += " } ";
@@ -108,8 +125,8 @@ public class PolicyCollection {
 					Conclusion con = p.getConc().get(j);
 					jsonPolicyCollection += "{ ";
 					jsonPolicyCollection += "\"Bundle1\": \"" + con.getBundle1() + "\", ";
-					jsonPolicyCollection += "\"Bundle2\": \"" + con.getBundle2() + "\", ";
-					jsonPolicyCollection += "\"Variable\": \"" + con.getVariable() + "\", ";
+					jsonPolicyCollection += "\"Method\": \"" + con.getMethod() + "\", ";
+					jsonPolicyCollection += "\"Parameter\": \"" + con.getParameter() + "\", ";
 					jsonPolicyCollection += "\"operator\": " + con.getOperator().ordinal() + ", ";
 					jsonPolicyCollection += "\"state\": " + con.getState().ordinal();
 					if (j == p.getConc().size() - 1) {
@@ -127,11 +144,6 @@ public class PolicyCollection {
 			}
 			jsonPolicyCollection += " ] }";
 		return jsonPolicyCollection.toString();
-	}
-	
-	public void readJSONString(String json) {
-		//Read in the Json parsed file
-		
 	}
 	
 }
