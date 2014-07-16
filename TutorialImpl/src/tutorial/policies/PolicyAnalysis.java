@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class PolicyAnalysis {
-	PolicyCollection collect;
+	private PolicyCollection collect;
 	private int violationTimes,totalviolTimes, highmagnitude = 5, lowmagnitude = 3, tendency;
 
 	public PolicyAnalysis()
@@ -53,6 +53,7 @@ public class PolicyAnalysis {
 				System.out.println("No matching policies found");
 			}
 		}
+		System.out.println("this component's adversarial tendency is " + tendency);
 		return violated;
 	}
 	/**
@@ -126,8 +127,10 @@ public class PolicyAnalysis {
 						conc.setStatus(policy[7]);
 						pol.setConclusion(conc);
 					}
+					System.out.println("my name is " + pol.getName());
 					collect.addPolicies(pol);// add policy to the collection
 				}
+				collect.printpols();
 			} finally {
 				// closes the opened files
 				if (readPolicy != null)

@@ -13,6 +13,7 @@ public class PolicyCollection {
 		if(start<myPolicies.length)
 		{
 			myPolicies[start] = pol;
+			start++;
 		}
 	}
 	/**
@@ -29,13 +30,29 @@ public class PolicyCollection {
 			if(myPolicies[i]!= null){
 				if(myPolicies[i].getPremise().getMethod().equalsIgnoreCase(method)&& myPolicies[i].getPremise().getParameters().equalsIgnoreCase(params))
 				{
+					
+					System.out.println("found policy " + myPolicies[i].getPremise().getMethod());
+					System.out.println("method passes is " + method);
 					matches[position]= myPolicies[i];
 					position++;
+				} else {
+					System.out.println("No match");
 				}
+			} else {
+				System.out.println("null policy");
 			}
-			System.out.println("null policy");
 		}
 		return matches;
 	}
 
+	public void printpols()
+	{
+		for(int i = 0; i<myPolicies.length;i++)
+		{
+			if(myPolicies[i]!= null)
+			System.out.println(myPolicies[i].getPremise().getMethod());
+			else System.out.println("Its null too");
+		}
+	}
+	
 }

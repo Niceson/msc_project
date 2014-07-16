@@ -100,7 +100,7 @@ public class Myaspect {
 		if (args.length > 0) {
 			// captures method arguments
 			for (int i = 0; i < args.length; i++) {
-				parameters = "argumentsPassed " + args[i];
+				parameters += args[i];
 			}
 			Methodlog += parameters;// appends the method log
 		}
