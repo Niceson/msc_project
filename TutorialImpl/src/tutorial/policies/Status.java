@@ -4,5 +4,4 @@ public enum Status {
 	ALWAYS,
 	NOT_ALWAYS,
 	EVENTUALLY
-
 }

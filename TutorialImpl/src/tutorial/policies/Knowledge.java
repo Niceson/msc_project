@@ -1,6 +1,6 @@
 package tutorial.policies;
 
-public enum knowledge {
+public enum Knowledge {
 	KNOWS,
 	NOT_KNOWS,
 	DELETE
