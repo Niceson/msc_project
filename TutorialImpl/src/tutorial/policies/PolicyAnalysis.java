@@ -3,7 +3,10 @@ package tutorial.policies;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.json.JSONObject;
 
 public class PolicyAnalysis {
 	private PolicyCollection collect;
@@ -12,6 +15,45 @@ public class PolicyAnalysis {
 	public PolicyAnalysis()
 	{
 		collect = new PolicyCollection();
+		Policy pol = new Policy();
+		Conclusion c = new Conclusion();
+		c.setBundle1("A");
+		c.setBundle2("B");
+		c.setOperator(knowledge.KNOWS);
+		c.setState(Status.ALWAYS);
+		c.setVariable("weight");
+		pol.addConc(c);
+		Premise p = new Premise();
+		p.setBundle1("A");
+		p.setBundle2("B");
+		p.setOperator(knowledge.KNOWS);
+		p.setVariable("height");
+		pol.addPremise(p);
+		pol.setName("1. Policy");
+		pol.setParameters("Nice");
+		pol.setMethod("sayHello");
+		collect.addPolicies(pol);
+		
+		Policy pol2 = new Policy();
+		Conclusion c2 = new Conclusion();
+		c2.setBundle1("C");
+		c2.setBundle2("D");
+		c2.setOperator(knowledge.NOT_KNOWS);
+		c2.setState(Status.ALWAYS);
+		c2.setVariable("name");
+		pol2.addConc(c2);
+		Premise p2 = new Premise();
+		p2.setBundle1("C");
+		p2.setBundle2("D");
+		p2.setOperator(knowledge.KNOWS);
+		p2.setVariable("age");
+		pol2.setName("2. Policy");
+		pol2.setParameters("params2");
+		pol2.setMethod("method2");
+		pol2.addPremise(p2);
+		collect.addPolicies(pol2);
+		
+//		writetoFile();
 	}
 	/**
 	 * Returns applicable policies related to a particular method and checks if
@@ -20,35 +62,35 @@ public class PolicyAnalysis {
 	 * @param method
 	 */
 	public boolean Analyse(String method, String params) {
-		Policy[] matchPolicies = collect.getMyPolicies(method,params);
+		ArrayList<Policy> matchPolicies = collect.getMyPolicies(method,params);
 		int policiesViolated = 0;
 		boolean violated = false;
-		for (int i = 0; i < matchPolicies.length; i++) {
+		for (int i = 0; i < matchPolicies.size(); i++) {
 			// calls helper method to check if a policy has been violated and how many times it has been violated
-			if(matchPolicies[i]!=null){
-			if(verifyViolation(matchPolicies[i])&& violationTimes>10)
-			{
-				//could be updated to say; if it has been violated many times or is not the only policy violated.
-				//It is unacceptable, tell aspect to terminate this method execution and append the status to file
-				System.out.println("Policy " + matchPolicies[i].getName() + " has been violated many times " + violationTimes);
-				policiesViolated++;
-				tendency += highmagnitude;// the component adverserial tendency is increased by a higher magnitude.
-				violated= true;
-			}// could be added that if one policy has been violated many times but no other policy has been violated.
-			
-			else if(verifyViolation(matchPolicies[i]) && violationTimes<10 )
-			{
-				//The policy has been violated but not many times
-				System.out.println("Policy " + matchPolicies[i].getName() + "has been violated " + violationTimes + "times");
-				policiesViolated++;
-				tendency += lowmagnitude;
-				violated = false;
-			}
-			else{
-				//The policy has not been violated
-				System.out.println("Policy " + matchPolicies[i].getName() + "has not been violated ");
-				violated = false;
-			}
+			if(matchPolicies.get(i)!=null){
+				if(verifyViolation(matchPolicies.get(i))&& violationTimes>10)
+				{
+					//could be updated to say; if it has been violated many times or is not the only policy violated.
+					//It is unacceptable, tell aspect to terminate this method execution and append the status to file
+					System.out.println("Policy " + matchPolicies.get(i).getName() + " has been violated many times " + violationTimes);
+					policiesViolated++;
+					tendency += highmagnitude;// the component adverserial tendency is increased by a higher magnitude.
+					violated= true;
+				}// could be added that if one policy has been violated many times but no other policy has been violated.
+				
+				else if(verifyViolation(matchPolicies.get(i)) && violationTimes<10 )
+				{
+					//The policy has been violated but not many times
+					System.out.println("Policy " + matchPolicies.get(i).getName() + "has been violated " + violationTimes + "times");
+					policiesViolated++;
+					tendency += lowmagnitude;
+					violated = false;
+				}
+				else{
+					//The policy has not been violated
+					System.out.println("Policy " + matchPolicies.get(i).getName() + "has not been violated ");
+					violated = false;
+				}
 			} else{
 				System.out.println("No matching policies found");
 			}
@@ -100,44 +142,23 @@ public class PolicyAnalysis {
 	{
 		FileReader readPolicy = null;
 		try {
-			try {
-				readPolicy = new FileReader("C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\policies.txt");
-				Scanner PolicyFile = new Scanner(readPolicy);
-				while (PolicyFile.hasNextLine()) {
-					String logRecord = PolicyFile.nextLine();
-					//Check if policy has been violated and if yes increment times.
-					String [] policy = logRecord.split("[ ]+");
-					Policy pol = new Policy();//create a new policy
-					Premises prem = new Premises();//create a new premise for the policy created
-					Conclusions conc = new Conclusions();//create a new conclusion for the created policy
-					for(int i = 0; i < policy.length;i++)
-					{
-						System.out.println(policy[i]);
-						//set variables for the premise and set it in the policy
-						pol.setName(policy[0]);
-						prem.setKnowledge(Boolean.parseBoolean(policy[1]));
-						prem.setMethod(policy[2]);
-						prem.setParameters(policy[3]);
-						prem.setRate(Boolean.parseBoolean(policy[4]));
-						pol.setPremise(prem);
-
-						//set variables for the conclusion and set it in the policy
-						conc.setMeasure(policy[5]);
-						conc.setKnow(Boolean.parseBoolean(policy[6]));
-						conc.setStatus(policy[7]);
-						pol.setConclusion(conc);
-					}
-					System.out.println("my name is " + pol.getName());
-					collect.addPolicies(pol);// add policy to the collection
-				}
-				collect.printpols();
-			} finally {
-				// closes the opened files
-				if (readPolicy != null)
-					readPolicy.close();
-			}
+			readPolicy = new FileReader("C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\policies.txt");
+			Scanner PolicyFile = new Scanner(readPolicy);
+			String input = "";
+			while (PolicyFile.hasNextLine()) {
+				input += PolicyFile.nextLine();
+			}  
+			collect.readJSONString(input);
 		} catch (IOException e) {
 			System.out.println("policy file not found");
+		} finally {
+			// closes the opened files
+			try {
+				readPolicy.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	/**
@@ -153,6 +174,20 @@ public class PolicyAnalysis {
 					"C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt",
 					"UTF-8");
 			writer.println(log);
+			writer.close();
+		} catch (IOException p) {
+			System.out.print("Not found!");
+		}
+	}
+	
+	public void writetoFile()
+	{
+		try {
+
+			PrintWriter writer = new PrintWriter(
+					"C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\policies.txt",
+					"UTF-8");
+			writer.println(collect.createJSONString());
 			writer.close();
 		} catch (IOException p) {
 			System.out.print("Not found!");

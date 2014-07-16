@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 
 import org.aspectj.lang.JoinPoint;
@@ -51,6 +52,22 @@ public class Myaspect {
 							+ stackTraceElements[i].getClassName());
 					
 				System.out.println("on stack " + (i - 1)+ stackTraceElements[i - 1].getClassName());
+				
+				Class c = null;
+				try {
+					c = Class.forName(stackTraceElements[i - 1].getClassName());
+//					c.getMethod("getService", "");
+					Method[] methods = c.getMethods();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					c.newInstance();
+				} catch (InstantiationException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 					
 				// Try to get the client Object to access the client
 				

@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="/GeminiProject/spring/com.springsource.org.aspectj.runtime-1.7.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/GeminiProject/spring/com.springsource.org.aspectj.weaver-1.7.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/GeminiProject/gemini-blueprint/dist/gemini-blueprint-core-2.0.0.M02.jar"/>
+	<classpathentry kind="lib" path="C:/BluPrintProject/GeminiProject/spring/org.everit.osgi.bundles.org.json-1.0.0-v20140107.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

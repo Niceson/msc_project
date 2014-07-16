@@ -1,2 +1,1 @@
-security true sayHello Nice true weight true always 
-updates false Hello String true matricNo true always
+{ "myPolicies": [ { "name": "1. Policy", "method": "sayHello", "parameter": "Nice", "premise": [ { "Bundle1": "A", "Bundle2": "B", "Variable": "height", "operator": 0 }  ], "conc": [ { "Bundle1": "A", "Bundle2": "B", "Variable": "weight", "operator": 0, "state": 0 }  ]  }, { "name": "2. Policy", "method": "method2", "parameter": "params2", "premise": [ { "Bundle1": "C", "Bundle2": "D", "Variable": "age", "operator": 0 }  ], "conc": [ { "Bundle1": "C", "Bundle2": "D", "Variable": "name", "operator": 1, "state": 0 }  ]  }  ] }
