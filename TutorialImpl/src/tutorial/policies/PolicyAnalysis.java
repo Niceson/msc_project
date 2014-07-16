@@ -6,11 +6,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import org.json.JSONObject;
-
 public class PolicyAnalysis {
 	private PolicyCollection collect;
-	private int violationTimes,totalviolTimes, highmagnitude = 5, lowmagnitude = 3, tendency;
+	private int violationTimes,highmagnitude = 5, lowmagnitude = 3, tendency;
 
 	public PolicyAnalysis()
 	{
@@ -67,12 +65,12 @@ public class PolicyAnalysis {
 	 * @param method
 	 */
 	public int Analyse(String method, String params, String classname) {
-		ArrayList<Policy> matchPolicies = collect.getMyPolicies(method,params, classname);
+		ArrayList<Policy> matchPolicies = collect.getMyPolicies(method,params,classname);
 		int policiesViolated = 0;
 		for (int i = 0; i < matchPolicies.size(); i++) {
 			// calls helper method to check if a policy has been violated and how many times it has been violated
 			if(matchPolicies.get(i)!=null){
-				if(verifyViolation(matchPolicies.get(i))&& violationTimes>10)
+				if(verifypremise(matchPolicies.get(i))&& violationTimes>10)
 				{
 					//could be updated to say; if it has been violated many times or is not the only policy violated.
 					//It is unacceptable, tell aspect to terminate this method execution and append the status to file
@@ -82,7 +80,7 @@ public class PolicyAnalysis {
 					
 				}// could be added that if one policy has been violated many times but no other policy has been violated.
 				
-				else if(verifyViolation(matchPolicies.get(i)) && violationTimes<10 )
+				else if(verifypremise(matchPolicies.get(i)) && violationTimes<10 )
 				{
 					//The policy has been violated but not many times
 					System.out.println("Policy " + matchPolicies.get(i).getName() + "has been violated " + violationTimes + "times");
@@ -112,7 +110,7 @@ public class PolicyAnalysis {
 	 * @param method the method to which this policy is applied
 	 * @return
 	 */
-	public boolean verifyViolation(Policy poly) {
+	public boolean verifypremise(Policy poly) {
 		violationTimes=0;//will keep how many times a particular policy has been violated
 		boolean violated = false;
 		FileReader readLog = null;
@@ -125,8 +123,6 @@ public class PolicyAnalysis {
 					System.out.println(logRecord);
 					//Check if policy has been violated and if yes increment violationTimes.
 				}
-				totalviolTimes +=violationTimes;// increment the total number of times this method has violated policies.
-				//After the while loop, add the times a particular method has been violated to the overall violation times of policies by a method.
 			} finally {
 				// closes the opened files
 				if (readLog != null)
@@ -202,8 +198,8 @@ public class PolicyAnalysis {
 	
 	public void readJSONString(String input){
 		collect = new PolicyCollection();
-		Policy pol = new Policy();
-		Conclusion c = new Conclusion();
+		new Policy();
+		new Conclusion();
 		
 		String [] singleClass = input.split("[ ,{}:.]+");
 		if (singleClass.length < 4 )

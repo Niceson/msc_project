@@ -1,11 +1,6 @@
 package tutorial.aspect;
-
-import java.lang.reflect.Method;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.osgi.framework.BundleReference;
-
 import tutorial.policies.PolicyAnalysis;
 
 /**

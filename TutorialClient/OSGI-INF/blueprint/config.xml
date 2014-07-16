@@ -12,6 +12,11 @@
         <!-- create an instance of the client once a service is available; 
         call its setter method in here called "service" giving to it the received service.
         Once this is done, call a method called init on the client object  -->
+     <!--     <bean id = "client"
+        class="com.client.ClientActivator">
+         <property name="service" ref="helloWorld"/> 
+        </bean>
+        -->
   
   <bean id="client"
         class="com.client.Client"
