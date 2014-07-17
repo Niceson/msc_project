@@ -16,48 +16,48 @@ public class PolicyAnalysis {
 		Policy pol = new Policy();
 		Conclusion c = new Conclusion();
 		Premise p = new Premise();
-		
+
 		p.setBundle1("Client");
 		p.setOperator(Knowledge.KNOWS);
 		p.setMethod("sayHello");
 		p.setParameters("Nice");
-		
+
 		c.setBundle1("Client");
 		c.setOperator(Knowledge.KNOWS);
 		c.setState(Status.ALWAYS);
 		c.setMethod("sayHello");
 		c.setParameter("Nice");
 		pol.addConc(c);
-		
+
 		pol.setName("Policy1");
 		pol.addPremise(p);
 		collect.addPolicies(pol);
-		
+
 		Policy pol2 = new Policy();
 		Conclusion c2 = new Conclusion();
 		Premise p2 = new Premise();
-		
+
 		p2.setBundle1("Client");
 		p2.setOperator(Knowledge.KNOWS);
 		p2.setMethod("sum");
 		p2.setParameters("2");
-		
+
 		c2.setBundle1("Client");
 		c2.setOperator(Knowledge.NOT_KNOWS);
 		c2.setState(Status.ALWAYS);
 		c2.setMethod("sayHello");
 		c2.setParameter("Nice");
-		
-		
+
+
 		pol2.setName("Policy2");
 		pol2.addPremise(p2);
 		pol2.addConc(c2);
-		
+
 		collect.addPolicies(pol2);
-		
+
 		policytoFile();
 	}
-		
+
 	/**
 	 * Returns applicable policies related to a particular method and checks if
 	 * any has been violated if any has, a policies a method has been violated then, it calls the method to verify the
@@ -66,39 +66,30 @@ public class PolicyAnalysis {
 	 */
 	public int Analyse(String method, String params, String classname) {
 		ArrayList<Policy> matchPolicies = collect.getMyPolicies(method,params,classname);
-		int policiesViolated = 0;
+		int policiesviolated = 0;
 		for (int i = 0; i < matchPolicies.size(); i++) {
 			// calls helper method to check if a policy has been violated and how many times it has been violated
 			if(matchPolicies.get(i)!=null){
-				if(verifypremise(matchPolicies.get(i))&& violationTimes>10)
+				if(verifypremise(matchPolicies.get(i)))// return true if all premises in this policy are true
 				{
-					//could be updated to say; if it has been violated many times or is not the only policy violated.
-					//It is unacceptable, tell aspect to terminate this method execution and append the status to file
-					System.out.println("Policy " + matchPolicies.get(i).getName() + " has been violated many times " + violationTimes);
-					policiesViolated++;
-					tendency += highmagnitude;// the component adverserial tendency is increased by a higher magnitude.
+					if(checkViolation(matchPolicies.get(i),classname,method,params))
+					{
+						policiesviolated++;
+						System.out.println("" + matchPolicies.get(i).getName() + "Has been violated");
+					}
+					//System.out.println("Policy " + matchPolicies.get(i).getName() + " has been violated many times " + violationTimes);
+					
 					
 				}// could be added that if one policy has been violated many times but no other policy has been violated.
+
 				
-				else if(verifypremise(matchPolicies.get(i)) && violationTimes<10 )
-				{
-					//The policy has been violated but not many times
-					System.out.println("Policy " + matchPolicies.get(i).getName() + "has been violated " + violationTimes + "times");
-					policiesViolated++;
-					tendency += lowmagnitude;
-					
-				}
-				else{
 					//The policy has not been violated
-					System.out.println("Policy " + matchPolicies.get(i).getName() + "has not been violated ");
-					
-				}
-			} else{
+		 else{
 				System.out.println("No matching policies found");
 			}
+			}
 		}
-		System.out.println("this component's adversarial tendency is " + tendency);
-		return policiesViolated;
+		return policiesviolated;
 	}
 	/**
 	 * Verifies from the log file (log.txt) and sets how many times
@@ -112,31 +103,61 @@ public class PolicyAnalysis {
 	 */
 	public boolean verifypremise(Policy poly) {
 		violationTimes=0;//will keep how many times a particular policy has been violated
-		boolean violated = false;
-		FileReader readLog = null;
-		try {
-			try {
-				readLog = new FileReader("log.txt");
-				Scanner LogsFile = new Scanner(readLog);
-				while (LogsFile.hasNextLine()) {
-					String logRecord = LogsFile.nextLine();
-					System.out.println(logRecord);
-					//Check if policy has been violated and if yes increment violationTimes.
-				}
-			} finally {
-				// closes the opened files
-				if (readLog != null)
-					readLog.close();
+		boolean settrue = false;
+		//check premise	
+		ArrayList<Premise> prem = poly.getPremise(); 
+		for(int i=0;i<prem.size();i++)
+		{
+			if(prem.get(i).isIstrue()){
+				settrue = true;
+				//do nothing
+			}else
+			{
+				prem.get(i).setIstrue(false);
+				return false;
 			}
-		} catch (IOException e) {
-			System.out.println("log file not found");
 		}
-		return violated;
+		//		FileReader readLog = null;
+		//		try {
+		//			try {
+		//				readLog = new FileReader("log.txt");
+		//				Scanner LogsFile = new Scanner(readLog);
+		//				while (LogsFile.hasNextLine()) {
+		//					String logRecord = LogsFile.nextLine();
+		//					System.out.println(logRecord);
+		//					//Check if policy has been violated and if yes increment violationTimes.
+		//				}
+		//			} finally {
+		//				// closes the opened files
+		//				if (readLog != null)
+		//					readLog.close();
+		//			}
+		//		} catch (IOException e) {
+		//			System.out.println("log file not found");
+		//		}
+		return settrue;
 	}
 	/**
 	 * Reads policies before the method execution.
 	 * @param log
 	 */
+
+	public boolean checkViolation(Policy pol, String client, String method, String param)
+	{
+		boolean violated = false;
+		ArrayList<Conclusion> conc = pol.getConc();
+		for(int i = 0; i< conc.size();i++)
+		{
+			if(conc.get(i).getBundle1().equalsIgnoreCase(client) && conc.get(i).getMethod().equalsIgnoreCase(method) 
+					&& conc.get(i).getParameter().equalsIgnoreCase(param))
+			{	
+         if(conc.get(i).getOperator().name().equalsIgnoreCase("KNOWS"))
+				violated = true;			
+			}
+		}
+		return violated;
+	}
+
 
 	public void readPolicy()
 	{
@@ -179,7 +200,7 @@ public class PolicyAnalysis {
 			System.out.print("Not found!");
 		}
 	}
-	
+
 	public void policytoFile()
 	{
 		try {
@@ -194,13 +215,14 @@ public class PolicyAnalysis {
 		}
 	}
 
-	
-	
+
+
 	public void readJSONString(String input){
+		//Try looking at find to be used in string
 		collect = new PolicyCollection();
 		new Policy();
 		new Conclusion();
-		
+
 		String [] singleClass = input.split("[ ,{}:.]+");
 		if (singleClass.length < 4 )
 		{
@@ -208,16 +230,16 @@ public class PolicyAnalysis {
 		}
 		else 
 		{
-			
+
 		}	
-		
+
 		for(int i=0; i<input.length(); i ++)
 		{
-			
+
 		}
-	
-	//	collect.addPolicies(pol2);
-		
-		
+
+		//	collect.addPolicies(pol2);
+
+
 	}
 }
