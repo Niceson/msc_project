@@ -17,10 +17,12 @@ public class Premise {
 	public String getBundle1() {
 		return bundle1;
 	}
-	public void setBundle1(String bundle1) {
-		bundle1 = bundle1;
+	public void setParameter(String parameter) {
+		this.parameter = parameter;
 	}
-	
+	public void setBundle1(String bundle1) {
+		this.bundle1 = bundle1;
+	}
 	public String getMethod() {
 		return method;
 	}

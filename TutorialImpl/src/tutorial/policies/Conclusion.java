@@ -29,9 +29,9 @@ public class Conclusion {
 	}
 	
 	public void setBundle1(String bundle1) {
-		bundle1 = bundle1;
+		this.bundle1 = bundle1;
 	}
-	
+
 	public Knowledge getOperator() {
 		return operator;
 	}

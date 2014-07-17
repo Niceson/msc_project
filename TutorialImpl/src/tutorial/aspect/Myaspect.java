@@ -10,11 +10,16 @@ import tutorial.policies.PolicyAnalysis;
  * 
  */
 public class Myaspect {
-	private Long startTime, endTme;
+	private Long startTime;
+	private Long endTme;
+	private int tendency = 0;
 	private String finallog;
 	private String methodlog = "";
-	private PolicyAnalysis myAnalysis = new PolicyAnalysis();
-
+	private PolicyAnalysis myAnalysis = new PolicyAnalysis();;
+	Logging logs= new Logging();
+	
+	// Declare map for multiple values e.g HashMap<String,ArrayList<String>> map;
+	
 	/**
 	 * Performed before method call execution
 	 * 
@@ -22,52 +27,7 @@ public class Myaspect {
 	 * 
 	 */
 	public void dobefore(JoinPoint jp) {
-		// generate the stack trace to get the calling class
-//		StackTraceElement[] stackTraceElements = Thread.currentThread()
-//				.getStackTrace();
-//		for (int i = 0; i < stackTraceElements.length; i++) {
-//
-//			if (stackTraceElements[i].getClassName().equals("sun.reflect.NativeMethodAccessorImpl")
-//					&& !(stackTraceElements[i - 1].getClassName().equals(jp.getThis().getClass().getName()))) {
-//				if (!(stackTraceElements[i - 1].getClassName().equals(this.getClass().getName()))
-//						&& !(stackTraceElements[i - 1].getClassName().equals("sun.reflect.NativeMethodAccessorImpl"))) {
-//					System.out.println("The proxy is " + i
-//							+ stackTraceElements[i].getClassName());
-//					
-//				System.out.println("on stack " + (i - 1)+ stackTraceElements[i - 1].getClassName());
-////				ClassLoader classLoader = stackTraceElements[i - 1].getClass().getClassLoader();
-////				System.out.println(classLoader);
-////				
-////				BundleReference bref = (BundleReference) classLoader;
-////				System.out.println(bref);
-//				
-////				Class c = null;
-////				try {
-////					c = Class.forName(stackTraceElements[i - 1].getClassName());
-////					Method[] methods = c.getMethods();
-////					try {
-////						final Method amethod = c.getDeclaredMethod("getTest", null);
-////						System.out.println(amethod.isAccessible());
-////					} catch (NoSuchMethodException e) {
-////						// TODO Auto-generated catch block
-////						e.printStackTrace();
-////					} catch (SecurityException e) {
-////						// TODO Auto-generated catch block
-////						e.printStackTrace();
-////					}
-////							//aclass.getDeclaredMethod(amethodname, parameterTypes);
-////				} catch (ClassNotFoundException e) {
-////					// TODO Auto-generated catch block
-////					e.printStackTrace();
-////				}
-//					
-//				// Try to get the client Object to access the client
-//				
-//					String className = stackTraceElements[i - 1].getClassName();
-//					methodlog += "Name:" + className + ",";	
-//				}
-//			}
-//		}
+		
 		startTime = System.currentTimeMillis();// captures the start time of the method call
 		String time = "started:" + startTime;
 		// System.out.println("" + jp.toString().getClass().getName());
@@ -76,8 +36,8 @@ public class Myaspect {
 		// System.out.println("The proxy Object is " + jp.getThis().getClass());
 		String targetClass = "targetClass:"
 				+ jp.getTarget().getClass().getName();
-		
-		
+
+
 		methodlog = methodlog + name+ "," +  signature + ","+  time	+ ","+ targetClass +",";
 	}
 
@@ -90,9 +50,10 @@ public class Myaspect {
 		String ended = "MethodEnded " + endTme;
 		String duration = "Duration " + (endTme - startTime)
 				+ " Milliseconds";
-		methodlog += ended + duration;
+		methodlog += ended + duration + tendency;
 		finallog += methodlog;
-		myAnalysis.writetoFile(finallog);// calls method to write to file the log of all methods.
+		
+		myAnalysis.writeLogtoFile(finallog);// calls method to write to file the log of all methods.
 	}
 
 	/**
@@ -104,22 +65,24 @@ public class Myaspect {
 	 * @throws Throwable
 	 */
 	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		
+		int highmagnitude = 5;
+		int lowmagnitude = 3; 
+		String classname="";
+		Object result= null;
+		//gets the calling class name
 		StackTraceElement[] stackTraceElements = Thread.currentThread()
 				.getStackTrace();
-		String className="";
 		for (int i = 0; i < stackTraceElements.length; i++) {
-
 			if (stackTraceElements[i].getClassName().equals("sun.reflect.NativeMethodAccessorImpl")
 					&& !(stackTraceElements[i - 1].getClassName().equals(pjp.getThis().getClass().getName()))) {
 				if (!(stackTraceElements[i - 1].getClassName().equals(this.getClass().getName()))
 						&& !(stackTraceElements[i - 1].getClassName().equals("sun.reflect.NativeMethodAccessorImpl"))) {
-				className = stackTraceElements[i - 1].getClassName();
-				methodlog += "Name:" + className + ",";	
-			}
+					classname = stackTraceElements[i - 1].getClassName();//calling class name assigned to variable class name
+					methodlog += "Name:" + classname + ",";	
+				}
 			}
 		}
-		Object result= null;
+		//gets passed arguments
 		Object[] args = pjp.getArgs();
 		String parameters = "";
 		if (args.length > 0) {
@@ -129,23 +92,28 @@ public class Myaspect {
 			}
 			methodlog += parameters;// appends the method log
 		}
+		//assign the signature of the method called
 		String passedMethod = pjp.getSignature().getName();
-		
-	System.out.println("Method passed " +  pjp.getSignature().getName());
-		myAnalysis.readPolicy();// read in the policies before the method executes.
+
+		//System.out.println("Method passed " +  pjp.getSignature().getName());
+		// Not working for now.....>>>	myAnalysis.readPolicy();// read in the policies before the method executes.
 		//returns the number of violations a method has committed
-		int deciding = myAnalysis.Analyse(passedMethod, parameters,className);
-		
+
+		int deciding = myAnalysis.Analyse(passedMethod, parameters,classname);
+
 		if (deciding==0) {// no violation proceed with method execution
 			result = pjp.proceed();	
+			System.out.println("This policy has not been violated, the method can proceed");
 		}
-			else if(deciding < 10) 	{//Number of violations are low
-				//increase tendency by a lower magnitude
-				
-			}
-				
+		else if(deciding < 10) 	{//Number of violations are low
+			//increase tendency by a lower magnitude
+			tendency += lowmagnitude;
+			System.out.println("This method has violated few policies, it can proceed but with caution ");
+		}
+
 		else {// Unacceptable level; throw exception to stop method execution
-			
+			System.out.println("This method needs to be blocked, it has violated a lot of policies");
+			tendency+=highmagnitude;
 			throw new Throwable();
 		}
 		return result;
@@ -159,7 +127,7 @@ public class Myaspect {
 	{ String status = "completed Successfully";
 	String returned = "";
 	if (retVal != null) {
-	//	System.out.println("Returned " + retVal.toString());
+		//	System.out.println("Returned " + retVal.toString());
 		returned = "Returned " + retVal.toString();
 	} else
 		returned = "Returned Null";
@@ -169,9 +137,8 @@ public class Myaspect {
 	 * 
 	 */
 	public void afterthrow()
-	{String status = "Did not complate ";
+	{String status = "method did not complete ";
 	methodlog += status;
 	}
-
 
 }

@@ -20,7 +20,6 @@ public void setTest(String test) {
     }
 
     public void setService(TutorialService service) {
-    	System.out.println("i just set service" + service);
         this.service = service;
     }
 
@@ -28,10 +27,11 @@ public void setTest(String test) {
     
         System.out.println("OSGi client started.");
         if (service != null) {
-            System.out.println("Calling sayHello()");
+          //  System.out.println("Calling sayHello()");
             service.sayHello("Nice");  // Invoke the OSGi service!
-            System.out.println("getting total");
+           // System.out.println("getting total");
             service.sum(10);
+            service.sayHello("Nice");
         }
     }
 
