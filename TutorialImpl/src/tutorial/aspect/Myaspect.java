@@ -16,7 +16,7 @@ public class Myaspect {
 	private String finallog;
 	private String methodlog = "";
 	private PolicyAnalysis myAnalysis = new PolicyAnalysis();;
-	Logging logs= new Logging();
+	//Logging logs= new Logging();
 	
 	// Declare map for multiple values e.g HashMap<String,ArrayList<String>> map;
 	
