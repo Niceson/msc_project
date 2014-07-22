@@ -6,8 +6,10 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.eclipse.org/gemini/blueprint/schema/blueprint http://www.eclipse.org/gemini/blueprint/schema/blueprint/gemini-blueprint.xsd">
 
+	<!-- Makes sure that only one bean is created for each unique client bundle 
+		that requests it and when this bundle is stopped, the bean is disosed off -->
 	<osgi:service interface="com.service.TutorialService">
-		<bean class="tutorialimpl.ServiceImpl">
+		<bean id="projectbean" scope="bundle" class="tutorialimpl.ServiceImpl">
 		</bean>
 	</osgi:service>
 
@@ -17,8 +19,8 @@
 
 	<aop:config>
 		<aop:aspect id="log" ref="logAspect">
-			<!--  <aop:pointcut id="calling" 
-			expression="call(* tutorialimpl.ServiceImpl.*(..))" /> -->
+			<!-- <aop:pointcut id="calling" expression="call(* tutorialimpl.ServiceImpl.*(..))" 
+				/> -->
 			<aop:pointcut id="selectAll"
 				expression="execution(* tutorialimpl.ServiceImpl.*(..))" />
 			<aop:before pointcut-ref="selectAll" method="dobefore" />
@@ -26,7 +28,8 @@
 			<aop:around pointcut-ref="selectAll" method="doAround" />
 			<aop:after-returning pointcut-ref="selectAll"
 				returning="retVal" method="afterReturning" />
-				<aop:after-throwing pointcut-ref="selectAll" method="afterthrow"/>
+			<aop:after-throwing pointcut-ref="selectAll"
+				method="afterthrow" />
 		</aop:aspect>
 	</aop:config>
 </beans>

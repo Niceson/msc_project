@@ -1,27 +1,27 @@
+
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0
-    http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd"
-  default-activation="eager">
-  
-  <!-- require a service/instance of a class implementing this interface (TutorialService) -->
-  
-  <reference id="helloWorld"
-        interface="com.service.TutorialService"/>
-        
-        <!-- create an instance of the client once a service is available; 
-        call its setter method in here called "service" giving to it the received service.
-        Once this is done, call a method called init on the client object  -->
-     <!--     <bean id = "client"
-        class="com.client.ClientActivator">
-         <property name="service" ref="helloWorld"/> 
-        </bean>
-        -->
-  
-  <bean id="client"
-        class="com.client.Client"
-        init-method="init">
-    <property name="service" ref="helloWorld"/> 
-  </bean>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:bean="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0
+    http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	default-activation="eager">
+
+
+	<!-- require a service/instance of a class implementing this interface (TutorialService) -->
+
+	<!-- create an instance of the client once a service is available; call 
+		its setter method in here called "service" giving to it the received service. 
+		Once this is done, call a method called init on the client object -->
+	<!-- <bean id="client" ref = "helloWorld" class="com.client.ClientActivator"> 
+		</bean> -->
+
+	<reference id="helloWorld" interface="com.service.TutorialService" />
+
+	<bean id="client" class="com.client.Client" init-method="init">
+		<property name="service" ref="helloWorld" />
+	</bean>
+
 
 </blueprint>

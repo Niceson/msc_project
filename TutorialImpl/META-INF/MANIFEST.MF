@@ -20,5 +20,6 @@ Import-Package: com.service,
  org.springframework.beans.factory;version="3.2.3.RELEASE",
  org.springframework.cglib.core;version="3.2.3.RELEASE",
  org.springframework.cglib.proxy;version="3.2.3.RELEASE",
- org.springframework.util;version="3.2.3.RELEASE"
+ org.springframework.util;version="3.2.3.RELEASE",
+ org.json;version="1.0.0.v20140107"
 Bundle-ActivationPolicy: lazy

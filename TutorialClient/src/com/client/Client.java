@@ -4,15 +4,6 @@ import com.service.TutorialService;
 
 public class Client {
 private TutorialService service;
-private String test = "My testooo";
-	
-	public String getTest() {
-	return test;
-}
-
-public void setTest(String test) {
-	this.test = test;
-}
 
 	// Bean properties
     public TutorialService getService() {

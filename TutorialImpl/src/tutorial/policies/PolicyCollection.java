@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class PolicyCollection {
 	ArrayList<Policy> myPolicies;
 
@@ -42,10 +45,6 @@ public class PolicyCollection {
 						found=true;	
 						//	System.out.println("Policy" + myPolicies.get(i).getName() + " found! and added to array");
 						break;
-						//					}
-						//					else{
-						//						
-						//					}
 					}
 
 					if(!found)
@@ -63,9 +62,6 @@ public class PolicyCollection {
 								found=true;	
 								break;
 							}
-							//						else{
-							//						//	System.out.println("policy"+ myPolicies.get(i).getName() +" not matching any conclusions");
-							//			    	}
 						}
 					}
 				}
@@ -88,19 +84,20 @@ public class PolicyCollection {
 	}
 
 	public String createJSONString() {
-		/*JSONObject jsonPolicyCollection = new JSONObject();
+		
+	/*
+		JSONObject jsonPolicyCollection = new JSONObject();
 			JSONArray jsonMyPolicies = new JSONArray();
 				for (Policy p : myPolicies) {
 					JSONObject jsonPolicy = new JSONObject();
 					jsonPolicy.put("name", p.getName());
-					jsonPolicy.put("method", p.getMethod());
-					jsonPolicy.put("parameter", p.getParameters());
+					
 					JSONArray jsonPremises = new JSONArray();
 					for (Premise pre : p.getPremise()) {
 						JSONObject jsonPremise = new JSONObject();
 						jsonPremise.put("Bundle1", pre.getBundle1());
-						jsonPremise.put("Bundle2", pre.getBundle2());
-						jsonPremise.put("Variable", pre.getVariable());
+					//	jsonPremise.put("Bundle2", pre.getBundle2());
+						//jsonPremise.put("Variable", pre.getVariable());
 						jsonPremise.put("operator", pre.getOperator());
 						jsonPremises.put(jsonPremise);
 					}
@@ -108,8 +105,8 @@ public class PolicyCollection {
 					for (Conclusion con : p.getConc()) {
 						JSONObject jsonConclusion = new JSONObject();
 						jsonConclusion.put("Bundle1", con.getBundle1());
-						jsonConclusion.put("Bundle2", con.getBundle2());
-						jsonConclusion.put("Variable", con.getVariable());
+					//	jsonConclusion.put("Bundle2", con.getBundle2());
+					//	jsonConclusion.put("Variable", con.getVariable());
 						jsonConclusion.put("operator", con.getOperator());
 						jsonConclusion.put("state", con.getState());
 						jsonConclusions.put(jsonConclusion);
@@ -117,6 +114,8 @@ public class PolicyCollection {
 				}
 				jsonPolicyCollection.put("myPolicies", jsonMyPolicies);
 		return jsonPolicyCollection.toString();*/
+		
+		
 		String jsonPolicyCollection = "{ \"myPolicies\": [ ";
 		for (int i = 0; i < myPolicies.size(); i++) {
 			Policy p = myPolicies.get(i);
@@ -161,30 +160,40 @@ public class PolicyCollection {
 			}
 		}
 		jsonPolicyCollection += " ] }";
-		return jsonPolicyCollection.toString();
-	}
+		return jsonPolicyCollection.toString(); 
+	} 
 
 	public void readJSONString(String input){
 		//Find, split,search. and repeat. 
-
 		String pattern="\\{.*\\}";
-	//	String pattern="\\[.*\\],";
 		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(input);
-		System.out.println(input);
+		 String test = "";
 		while (m.find()) {
 			System.out.print("Start index: " + m.start());
 		      System.out.print(" End index: " + m.end() + " ");
-		      System.out.println(m.group());
-//			System.out.println("match found");
-//			System.out.println(m.group(0));
-//			// System.out.println(m.group(1));
-//			for (int i=0; i<m.groupCount(); i++)
-//			{
-//				System.out.println("I am printing matches");
-//				System.out.println(m.group(i));
-//			}
+		      test = m.group();
+		      System.out.println(test.split(":"));
+		      getarrayjson(test);
+		      System.out.println(test + "\n");
+		     // System.out.println(m.group());
+		}	
+	}	
+public void getarrayjson(String test)	
+{		
+		String jsnpattern="\\[.*\\]";
+		Pattern pat = Pattern.compile(jsnpattern);
+		Matcher match = pat.matcher(test);
+		
+		while (match.find()) {
+			System.out.print("Start index: " + match.start());
+		      System.out.print(" End index: " + match.end() + " ");
+		      String input = match.group();
+		   //   System.out.println(match.group() + "\n");
+		      readJSONString(input);    
 		}
+			
+		
 //			String [] inputrecord = input.split("[ ,{}:.]+");
 //			if (inputrecord.length < 4 )
 //			{
