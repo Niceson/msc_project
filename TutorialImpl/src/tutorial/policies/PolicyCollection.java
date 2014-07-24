@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class PolicyCollection {
 	ArrayList<Policy> myPolicies;
 
+	/**
+	 * Constructor instantiates an ArrayList
+	 */
 	public PolicyCollection()
 	{
 		myPolicies = new ArrayList<Policy>();
 
 	}
+	/**
+	 * Adds polices to the ArrayList
+	 * @param pol
+	 */
 	public void addPolicies(Policy pol)
 	{
 		myPolicies.add(pol);
@@ -36,7 +40,6 @@ public class PolicyCollection {
 				ArrayList<Premise> prem = myPolicies.get(i).getPremise();	
 				for (int p = 0; p<prem.size();p++)
 				{
-					//System.out.println("" + classname + "\n"+ method + "\n"+ params);
 
 					if(prem.get(p).getMethod().equalsIgnoreCase(method) && prem.get(p).getParameter().equalsIgnoreCase(params)
 							&& prem.get(p).getBundle1().equalsIgnoreCase(classname)&& !found)
@@ -84,14 +87,14 @@ public class PolicyCollection {
 	}
 
 	public String createJSONString() {
-		
-	/*
+
+		/*
 		JSONObject jsonPolicyCollection = new JSONObject();
 			JSONArray jsonMyPolicies = new JSONArray();
 				for (Policy p : myPolicies) {
 					JSONObject jsonPolicy = new JSONObject();
 					jsonPolicy.put("name", p.getName());
-					
+
 					JSONArray jsonPremises = new JSONArray();
 					for (Premise pre : p.getPremise()) {
 						JSONObject jsonPremise = new JSONObject();
@@ -114,14 +117,13 @@ public class PolicyCollection {
 				}
 				jsonPolicyCollection.put("myPolicies", jsonMyPolicies);
 		return jsonPolicyCollection.toString();*/
-		
-		
+
+
 		String jsonPolicyCollection = "{ \"myPolicies\": [ ";
 		for (int i = 0; i < myPolicies.size(); i++) {
 			Policy p = myPolicies.get(i);
 			jsonPolicyCollection += "{ ";
 			jsonPolicyCollection += "\"name\": \"" + p.getName() + "\", ";
-			//jsonPolicyCollection += "\"parameter\": \"" + p.getParameters() + "\", ";
 			jsonPolicyCollection += "\"premise\": [ ";
 			for (int j = 0; j < p.getPremise().size(); j++) {
 				Premise pre = p.getPremise().get(j);
@@ -168,50 +170,55 @@ public class PolicyCollection {
 		String pattern="\\{.*\\}";
 		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(input);
-		 String test = "";
+		String test = "";
 		while (m.find()) {
 			System.out.print("Start index: " + m.start());
-		      System.out.print(" End index: " + m.end() + " ");
-		      test = m.group();
-		      System.out.println(test.split(":"));
-		      getarrayjson(test);
-		      System.out.println(test + "\n");
-		     // System.out.println(m.group());
+			System.out.print(" End index: " + m.end() + " ");
+			test = m.group();
+			System.out.println(test.split(":"));
+			getarrayjson(test);
+			System.out.println(test + "\n");
+			// System.out.println(m.group());
 		}	
 	}	
-public void getarrayjson(String test)	
-{		
+	public void getarrayjson(String test)	
+	{		
 		String jsnpattern="\\[.*\\]";
 		Pattern pat = Pattern.compile(jsnpattern);
 		Matcher match = pat.matcher(test);
-		
+
 		while (match.find()) {
 			System.out.print("Start index: " + match.start());
-		      System.out.print(" End index: " + match.end() + " ");
-		      String input = match.group();
-		   //   System.out.println(match.group() + "\n");
-		      readJSONString(input);    
+			System.out.print(" End index: " + match.end() + " ");
+			String input = match.group();
+			//   System.out.println(match.group() + "\n");
+			readJSONString(input);    
 		}
-			
 		
-//			String [] inputrecord = input.split("[ ,{}:.]+");
-//			if (inputrecord.length < 4 )
-//			{
-//				System.out.print("Missing data");
-//			}
-//			else 
-//			{
-//				for (int i=0; i<inputrecord.length;i++)
-//				{
-//					System.out.println("" + inputrecord[i]);
-//				}
-//			}	
-//			for(int i=0; i<input.length(); i ++)
-//			{
-//
-//			}
+		//			String [] inputrecord = input.split("[ ,{}:.]+");
+		//			if (inputrecord.length < 4 )
+		//			{
+		//				System.out.print("Missing data");
+		//			}
+		//			else 
+		//			{
+		//				for (int i=0; i<inputrecord.length;i++)
+		//				{
+		//					System.out.println("" + inputrecord[i]);
+		//				}
+		//			}	
+		//			for(int i=0; i<input.length(); i ++)
+		//			{
+		//
+		//			}
 
 	}
+	public void infotowrite(Policy towrite)
+	{
+
+
+	}
+
 
 }
 

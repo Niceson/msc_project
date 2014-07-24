@@ -4,7 +4,6 @@ import com.service.TutorialService;
 
 public class ServiceImpl implements TutorialService{
 	
-
 	@Override
 	public void sayHello(String name) {
 		System.out.println( "Hello my World!" + name );	
@@ -16,4 +15,5 @@ public class ServiceImpl implements TutorialService{
 		int total = add*2;
 		return total;
 	}
+	
 }

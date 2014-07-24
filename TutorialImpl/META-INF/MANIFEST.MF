@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: tutorialimpl.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.service,
+ org.slf4j;version="1.6.1",
  org.aopalliance.aop;version="[1.0.0,2.0.0)",
  org.aspectj.lang;version="1.7.1.RELEASE",
  org.aspectj.lang.reflect;version="1.7.1.RELEASE",
@@ -20,6 +21,5 @@ Import-Package: com.service,
  org.springframework.beans.factory;version="3.2.3.RELEASE",
  org.springframework.cglib.core;version="3.2.3.RELEASE",
  org.springframework.cglib.proxy;version="3.2.3.RELEASE",
- org.springframework.util;version="3.2.3.RELEASE",
- org.json;version="1.0.0.v20140107"
+ org.springframework.util;version="3.2.3.RELEASE"
 Bundle-ActivationPolicy: lazy

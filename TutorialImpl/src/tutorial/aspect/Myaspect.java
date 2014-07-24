@@ -13,8 +13,8 @@ public class Myaspect {
 	private Long startTime;
 	private Long endTme;
 	private int tendency = 0;
-	private String finallog;
-	private String methodlog = "";
+	private String finallog="";
+	private String methodlog;
 	private PolicyAnalysis myAnalysis = new PolicyAnalysis();;
 	//Logging logs= new Logging();
 	
@@ -29,26 +29,25 @@ public class Myaspect {
 	public void dobefore(JoinPoint jp) {
 		
 		startTime = System.currentTimeMillis();// captures the start time of the method call
-		String time = "started:" + startTime;
+		String time = "started: " + startTime;
 		// System.out.println("" + jp.toString().getClass().getName());
-		String signature = "methodSignature:" + jp.getSignature();
-		String name = "methodName"+ jp.getSignature().getName();
+		String signature = "methodSignature: " + jp.getSignature();
+		String name = "methodName: "+ jp.getSignature().getName();
 		// System.out.println("The proxy Object is " + jp.getThis().getClass());
-		String targetClass = "targetClass:"
+		String targetClass = "targetClass: "
 				+ jp.getTarget().getClass().getName();
-
-
-		methodlog = methodlog + name+ "," +  signature + ","+  time	+ ","+ targetClass +",";
+		methodlog = name ;
+		methodlog +=  "," +  signature + ","+  time	+ ","+ targetClass +",";
 	}
 
 	/**
 	 * Performed after method call execution
 	 */
 	public void doafter() {
-
+		
 		endTme = System.currentTimeMillis();
-		String ended = "MethodEnded " + endTme;
-		String duration = "Duration " + (endTme - startTime)
+		String ended = "MethodEnded: " + endTme;
+		String duration = "Duration: " + (endTme - startTime)
 				+ " Milliseconds";
 		methodlog += ended + duration + tendency;
 		finallog += methodlog;
@@ -78,7 +77,7 @@ public class Myaspect {
 				if (!(stackTraceElements[i - 1].getClassName().equals(this.getClass().getName()))
 						&& !(stackTraceElements[i - 1].getClassName().equals("sun.reflect.NativeMethodAccessorImpl"))) {
 					classname = stackTraceElements[i - 1].getClassName();//calling class name assigned to variable class name
-					methodlog += "Name:" + classname + ",";	
+					methodlog += "Name: " + classname + ",";	
 				}
 			}
 		}
@@ -108,6 +107,7 @@ public class Myaspect {
 		else if(deciding < 10) 	{//Number of violations are low
 			//increase tendency by a lower magnitude
 			tendency += lowmagnitude;
+			result= pjp.proceed();
 			System.out.println("This method has violated few policies, it can proceed but with caution ");
 		}
 
@@ -128,7 +128,7 @@ public class Myaspect {
 	String returned = "";
 	if (retVal != null) {
 		//	System.out.println("Returned " + retVal.toString());
-		returned = "Returned " + retVal.toString();
+		returned = "Returned: " + retVal.toString();
 	} else
 		returned = "Returned Null";
 	methodlog += returned  + status;

@@ -1,8 +1,10 @@
 package tutorial.policies;
 
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+//import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -29,6 +31,7 @@ public class PolicyAnalysis {
 		pol.addConc(c);
 
 		pol.setName("Policy1");
+		pol.setWeight(5);
 		pol.addPremise(p);
 		collect.addPolicies(pol);
 
@@ -49,12 +52,14 @@ public class PolicyAnalysis {
 
 
 		pol2.setName("Policy2");
+		pol2.setWeight(2);
 		pol2.addPremise(p2);
 		pol2.addConc(c2);
 
 		collect.addPolicies(pol2);
 		policytoFile();
 		readPolicy();// method that reads policies from file
+	
 	}
 
 	/**
@@ -66,6 +71,7 @@ public class PolicyAnalysis {
 	public int Analyse(String method, String params, String classname) {
 		ArrayList<Policy> matchPolicies = collect.getMyPolicies(method,params,classname);
 		int policiesviolated = 0;
+		String violation = "";
 		for (int i = 0; i < matchPolicies.size(); i++) {
 			// calls helper method to check if a policy has been violated and how many times it has been violated
 			if(matchPolicies.get(i)!=null){
@@ -75,8 +81,15 @@ public class PolicyAnalysis {
 					System.out.println(" policy " + matchPolicies.get(i).getName() + "has been verified");
 					System.out.println("policy " + matchPolicies.get(i).getName() + "is being checked for violation");
 					if(checkViolation(matchPolicies.get(i),classname,method,params))
-					{
-						policiesviolated++;
+					{ 
+						policiesviolated++;// increment the number of policies violated
+						violation += matchPolicies.get(i).getName() + classname + method + params +"was violated";
+						System.out.println(violation);
+						writeLogtoFile(violation);
+						matchPolicies.get(i).setViolator(classname);
+						System.out.println(matchPolicies.get(i).getViolator(classname));
+
+						//collect.infotowrite(matchPolicies.get(i));
 						System.out.println("" + matchPolicies.get(i).getName() + "Has been violated");
 					}
 
@@ -107,7 +120,7 @@ public class PolicyAnalysis {
 		//check premise	
 		ArrayList<Premise> prem = poly.getPremise(); 
 		for(int i=0;i<prem.size();i++)
-		{// if it already knows. if it doesn't know?
+		{// if it already knows. 
 			if(prem.get(i).isIstrue()){
 				//System.out.println("" + prem.get(i).getBundle1() + prem.get(i).getMethod() + prem.get(i).getParameter() + prem.get(i).getOperator().name() + "has been met before");
 				settrue = true;
@@ -163,9 +176,9 @@ public class PolicyAnalysis {
 		}
 		return violated;
 	}
-/**
- * Reads policies from a policies file
- */
+	/**
+	 * Reads policies from a policies file
+	 */
 
 	public void readPolicy()
 	{
@@ -199,33 +212,74 @@ public class PolicyAnalysis {
 
 	public void writeLogtoFile(String log)
 	{
+		FileWriter fop = null;
+		File file;
 		try {
+			
+			file = new File("C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt");
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			fop = new FileWriter(file, true);
+		fop.append(log);
+			
+			
+			
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+//			PrintWriter writer = new PrintWriter(
+//					"C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt",
+//					"UTF-8");
+//			writer.println(log);
+			
+			finally {
+				try {
+					if (fop != null) {
+						fop.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-			PrintWriter writer = new PrintWriter(
-					"C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\log.txt",
-					"UTF-8");
-			writer.println(log);
-			writer.close();
-		} catch (IOException p) {
-			System.out.print("Not found!");
 		}
 	}
-/**
- * Writes policies to file.
- */
+	/**
+	 * Writes policies to file.
+	 */
 	public void policytoFile()
 	{
-		try {
+			FileWriter fop = null;
+			File file;
+			try {
+				file = new File("C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\policies.txt");
+				
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+				fop = new FileWriter(file, true);
+			fop.append(collect.createJSONString());
+			}
 
-			PrintWriter writer = new PrintWriter(
-					"C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\policies.txt",
-					"UTF-8");
-			writer.println(collect.createJSONString());
-			writer.close();
-		} catch (IOException p) {
+//			PrintWriter writer = new PrintWriter(
+//					"C:\\Users\\Nice\\Documents\\GitHub\\msc_project\\TutorialImpl\\policies.txt",
+//					"UTF-8");
+//			writer.println(collect.createJSONString());
+////			writer.close();
+		 catch (IOException p) {
 			System.out.print("Not found!");
 		}
-	}
-
-
+//	}
+		finally {
+			try {
+				if (fop != null) {
+					fop.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}	
 }
